@@ -84,7 +84,7 @@ Cuando llega un pedido de un proveedor:
 
 Antes de empezar, el sistema requiere:
 
-- Hacer un **conteo físico real** de cada bodega (ej. "tenemos 150 camisetas rojas tamaño M")
+- Hacer un **conteo físico real** de cada bodega (ej. "tenemos 45 sacos de Alimento Pro-Plan 25kg, 120 bolsas individuales de 1kg derivadas, 80 bandejas de huevos de 30 unidades")
 - Este conteo se registra como el "punto de partida"
 - A partir de aquí, el sistema **rastrea cada movimiento**
 
@@ -94,10 +94,9 @@ Antes de empezar, el sistema requiere:
 
 ### 4️⃣ CONTROL DE STOCK MÍNIMO EN SALA DE VENTAS
 
-Don Javier define: _"Quiero tener siempre mínimo 10 camisetas rojas en la sala"_
+Don Javier define: _"Quiero tener siempre mínimo 50 bolsas de Alimento Rojo 1kg en la sala y 20 bandejas de huevos frescos"_
 
 El sistema:
-
 - **Monitorea** en tiempo real cuántas hay
 - **Alerta automáticamente** cuando baja del mínimo
 - Sugiere **cuándo y cuánto reponer** desde las bodegas
@@ -115,7 +114,43 @@ En la sala de ventas, un cajero:
 3. Al final del día, ve **cuántas unidades se vendieron** por producto
 4. El sistema genera un **reporte de reposición**
 
-**Beneficio Comercial:** Sabe exactamente qué se vende y qué no. Puede reponer con anticipación (ej. "necesito 50 camisetas para la próxima semana").
+**Beneficio Comercial:** Sabe exactamente qué se vende y qué no. Puede reponer con anticipación (ej. "necesito 100 bolsas de alimento Purina PRO PLAN 1kg para la próxima semana").
+
+---
+
+### 5️⃣.1️⃣ GESTIÓN DE SKU PADRE/HIJO (Característica Especial para Don Javier)
+
+Este es un **sistema inteligente** para manejar productos que se venden de dos formas:
+
+**Ejemplo Real:**
+- **SKU Padre:** "Alimento Pro-Plan Adult Large 25kg" (Saco cerrado de 25kg)
+- **SKU Hijo:** "Alimento Pro-Plan Adult Large 1kg" (Bolsa individual de 1kg)
+
+**Cómo funciona:**
+
+1. **Cuando llega un saco de 25kg:**
+   - Se registra como "1 unidad del SKU Padre"
+   - El sistema **reserva** esos 25kg para distribuir
+
+2. **Cuando el bodeguero abre el saco:**
+   - Sistema registra: "Abierto 1 SKU Padre (25kg)" 
+   - Automáticamente genera: "25 unidades de SKU Hijo (1kg disponibles)"
+   - El saco original desaparece del inventario padre
+   - Las 25 bolsas aparecen en hijo
+
+3. **Cuando vende bolsas individuales:**
+   - Cada venta descuenta del SKU Hijo
+   - Si se acabó el hijo pero hay sacos padre, alerta para abrir otro
+
+4. **En reportes:**
+   - Muestra ambos niveles: Sacos disponibles + bolsas individuales
+   - Calcula automáticamente "equivalentes de sacos" vendidos
+   - Sugerencia: "Se vendieron 45 bolsas (1.8 sacos). Pedir 10 sacos para la próxima semana"
+
+**Beneficio Comercial:** 
+- ✅ Máxima flexibilidad: vende al por mayor (sacos) y al detalle (bolsas individuales)
+- ✅ Usa la capacidad instalada (abre sacos según demanda real)
+- ✅ Reportes inteligentes que convierten automáticamente
 
 ---
 
@@ -174,7 +209,7 @@ El sistema puede generar:
    - Clientes con deudas vencidas
    - Productos sin stock
 
-2. **Bodegueros** reciben órdenes: "Pasar 50 camisetas a sala"
+2. **Bodegueros** reciben órdenes: "Pasar 30 bolsas de Alimento Pro-Plan 1kg a sala" o "Abrir 2 sacos de 25kg y distribuir"
    - El sistema registra el movimiento
 
 ### Durante el Día
@@ -242,6 +277,13 @@ El sistema puede generar:
 - Cierre de día con reportes
 - Historial de ventas por producto
 
+### Módulo 4.1: GESTIÓN DE SKU PADRE/HIJO
+
+- Registro de productos de dos niveles (Saco padre ↔ Bolsa hijo)
+- Apertura automática de sacos y generación de unidades hijo
+- Conversión automática en reportes (ej: 25 bolsas = 1 saco)
+- Alertas inteligentes cuando se acaba el hijo pero hay padre disponible
+
 ### Módulo 5: GESTIÓN DE CRÉDITOS
 
 - Cuentas corrientes por cliente
@@ -262,10 +304,10 @@ El sistema puede generar:
 
 ### Caso 1: Don Javier Llega a la Mañana
 
-**Pregunta:** "¿Tenemos stock de camisetas rojas talla L?"
+**Pregunta:** "¿Tenemos stock de Alimento Royal Canin Medium Adult?"
 
-- **Sistema:** "En bodega 1 hay 45, en bodega 2 hay 12, en sala hay 8"
-- **Acción:** Ordena traer 20 a la sala
+- **Sistema:** "En bodega 1 hay 12 sacos de 25kg (SKU padre) y 45 bolsas individuales de 1kg (SKU hijo), en bodega 2 hay 8 sacos sin abrir, en sala hay 23 bolsas individuales" 
+- **Acción:** Ordena traer 15 bolsas individuales a la sala o abre 1 saco si es necesario
 
 ### Caso 2: Llega Proveedor a las 10 AM
 
@@ -283,7 +325,7 @@ El sistema puede generar:
 
 ### Caso 4: Es Viernes y Necesita Reponer
 
-**Sistema:** "Se vendieron 150 camisetas esta semana. Recomendación: Pedir 200 para próxima semana"
+**Sistema:** "Se vendieron 280 bolsas de Alimento PRO PLAN 1kg esta semana (equivalente a 11.2 sacos de 25kg). Recomendación: Pedir 15 sacos para próxima semana"
 
 - Decisión **basada en datos reales**, no en intuición
 
@@ -386,18 +428,19 @@ Después de 3 meses, Don Javier debería ver:
 
 ## 📋 APÉNDICE: FUNCIONALIDADES RESUMIDAS
 
-| #   | Funcionalidad           | Descripción                                    | Beneficio            |
-| --- | ----------------------- | ---------------------------------------------- | -------------------- |
-| 1   | Inventario Centralizado | Ver stock en todas ubicaciones simultáneamente | Claridad total       |
-| 2   | Recepción con OCR       | Foto de guía → ingreso automático              | Velocidad            |
-| 3   | Inventario Inicial      | Baseline de conteo físico                      | Auditoría confiable  |
-| 4   | Stock Crítico           | Alertas de reposición automáticas              | Nunca sin stock      |
-| 5   | POS Rápido              | Escaneo de códigos en caja                     | Ventas eficientes    |
-| 6   | Reportes Diarios        | Qué se vendió cada día                         | Decisiones objetivas |
-| 7   | Cuentas Corrientes      | Control de deudas por cliente                  | Cobranza organizada  |
-| 8   | Guías de Despacho       | Documentos legales generados automáticamente   | Trazabilidad         |
-| 9   | Alertas de Pago         | Notificaciones de deuda vencida                | Mejor flujo caja     |
-| 10  | Reporte de Reposición   | Sugerencia de qué comprar                      | Compras inteligentes |
+| #   | Funcionalidad                | Descripción                                    | Beneficio            |
+| --- | ---------------------------- | ---------------------------------------------- | -------------------- |
+| 1   | Inventario Centralizado      | Ver stock en todas ubicaciones simultáneamente | Claridad total       |
+| 2   | Recepción con OCR            | Foto de guía → ingreso automático              | Velocidad            |
+| 3   | Inventario Inicial           | Baseline de conteo físico                      | Auditoría confiable  |
+| 4   | Stock Crítico                | Alertas de reposición automáticas              | Nunca sin stock      |
+| 5   | POS Rápido                   | Escaneo de códigos en caja                     | Ventas eficientes    |
+| 5.1 | SKU Padre/Hijo               | Gestión de sacos que se abren en unidades      | Máxima flexibilidad  |
+| 6   | Reportes Diarios             | Qué se vendió cada día (con conversión padre)  | Decisiones objetivas |
+| 7   | Cuentas Corrientes           | Control de deudas por cliente                  | Cobranza organizada  |
+| 8   | Guías de Despacho            | Documentos legales generados automáticamente   | Trazabilidad         |
+| 9   | Alertas de Pago              | Notificaciones de deuda vencida                | Mejor flujo caja     |
+| 10  | Reporte de Reposición        | Sugerencia de qué comprar (en sacos)           | Compras inteligentes |
 
 ---
 
