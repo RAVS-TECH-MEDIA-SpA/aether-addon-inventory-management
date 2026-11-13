@@ -2,7 +2,7 @@
 
 ## Solución de Gestión de Inventario Centralizado
 
-### Para: Distribuidora Don Javier
+### Para: Distribuidora Don Javier - Venta de Alimentos para Mascotas y Huevos
 
 ### Fecha: 13 de Noviembre, 2026
 
@@ -30,25 +30,25 @@ Un módulo integrado en Aether Retail que **une todas sus operaciones** en un so
 
 ## 🏢 ENTENDIENDO EL NEGOCIO DE DON JAVIER
 
-### Estructura Actual
+Don Javier es un distribuidor de **alimentos para mascotas** (comida para perros, gatos, etc.) y **huevos** que vende tanto a nivel mayorista (B2B) como en su sala de ventas al público.
 
+### Estructura Actual
 ```
-PROVEEDORES EXTERNOS
+PROVEEDORES EXTERNOS (Alimentos para mascotas, Huevos, etc.)
       ↓
    BODEGAS (3 ubicaciones físicas)
       ↓
-   ├─→ Despachos a ~150 Clientes (Venta B2B)
-      └─→ Stock para Sala de Ventas (Venta al Detalle)
+   ├─→ Despachos a ~150 Clientes (Venta B2B - Tiendas de mascotas, distribuidoras menores, etc.)
+      └─→ Stock para Sala de Ventas (Venta al Detalle - Público general)
             ↓
-        Clientes en Mostrador (500+ productos)
+        Clientes en Mostrador (500+ referencias de productos)
 ```
 
 ### Volumen de Operación
-
 - **3 bodegas** independientes pero interconectadas
-- **Más de 500 productos distintos** (cada uno con código de barras)
-- **~150 clientes B2B** que compran a crédito
-- **1 sala de ventas** donde se vende al público
+- **Más de 500 referencias de productos** (comida para mascotas, huevos, suplementos, etc. - cada uno con código de barras)
+- **~150 clientes B2B** (tiendas de mascotas, distribuidoras menores, etc.) que compran a crédito
+- **1 sala de ventas** donde se vende al público general
 - **Pago a plazo común** ("para el día" o en varios días)
 
 ---
@@ -292,36 +292,6 @@ El sistema puede generar:
 **Sistema:** Alerta automática "Deuda de $500.000 desde hace 5 días"
 
 - Don Javier llama para cobrar
-
----
-
-## 🚀 PLAN DE IMPLEMENTACIÓN
-
-### Fase 1: PREPARACIÓN (Semana 1-2)
-
-- Configurar las 3 bodegas en el sistema
-- Registrar los 500+ productos con códigos de barras
-- Crear perfiles de usuarios (bodeguero, cajero, gerente)
-- Capacitación rápida del equipo
-
-### Fase 2: CONTEO INICIAL (Semana 3)
-
-- Contar físicamente cada bodega
-- Ingresar inventario inicial en el sistema
-- Validar que los números coincidan
-
-### Fase 3: PILOTO (Semana 4-5)
-
-- Empezar con sala de ventas solamente
-- Probar el escaneo de códigos
-- Ajustar procesos según necesidad
-
-### Fase 4: EXPANSIÓN COMPLETA (Semana 6-8)
-
-- Activar recepción de proveedores
-- Activar despachos entre bodegas
-- Activar gestión de créditos
-- **Sistema 100% operativo**
 
 ---
 
