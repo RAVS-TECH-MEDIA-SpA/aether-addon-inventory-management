@@ -18,7 +18,7 @@ Proporcionar claridad y control total del inventario distribuido en 3 bodegas co
 - ✅ Reportes de reposición y análisis
 
 ## 📞 Contacto
-**Arquitecto de Soluciones**: Rodrigo Vargas
+**Ingeniero encargado**: Rodrigo Vargas Sanhueza
 **Cliente**: Distribuidora Don Javier
 **Plataforma**: Aether Retail
 
