@@ -4,6 +4,8 @@
 
 **Hora de envío de esta actualización a GitHub:** 2026-11-21 04:23:23 -03:00. Hora local registrada inmediatamente antes de iniciar la publicación; no es la marca de tiempo exacta de recepción del servidor.
 
+**Fecha del commit de la actualización de avances según GitHub:** 2026-11-21 04:26:13 UTC-03:00 (`2026-11-21 07:26:13 UTC`), commit [`c4c9ed4`](https://github.com/RAVS-TECH-MEDIA-SpA/aether-addon-inventory-management/commit/c4c9ed4b65248a31ce2b8e45e9c7a4fcd72337cf). Es la fecha del commit registrada por GitHub, no una confirmación independiente del instante exacto del push; puede diferir del reloj local. Las publicaciones posteriores pueden consultarse en el [historial de cambios](https://github.com/RAVS-TECH-MEDIA-SpA/aether-addon-inventory-management/commits/main/CHECKLIST_AVANCE_DON_JAVIER.md).
+
 **Referencia:** [Informe ejecutivo](INFORME_ADDON_GESTION_INVENTARIO_DON_JAVIER.md).
 
 **Estado general:** desarrollo en curso. La base del addon está subida a `feat/don-javier-demo`; los gráficos y exportaciones más recientes están solo en el entorno local, sin commit ni push. No se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
@@ -228,4 +230,4 @@ La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas, y las c
 | Fecha y hora | Avance |
 |---|---|
 | 2026-11-21, hora de publicación no registrada | Primera versión persistente: inventario y POS iniciales, avisos de mínimos, cobranza manual, resumen, configuración de zona comercial y equivalencias aproximadas. |
-| 2026-11-21 04:23:23 -03:00 | Actualización del estado remoto y local, avisos de cobranza, validación de migraciones, gráficos y CSV; estimación aproximada de 44 %. |
+| 2026-11-21 04:23:23 UTC-03:00 (envío local); 04:26:13 UTC-03:00 (fecha del commit en GitHub) | Actualización del estado remoto y local, avisos de cobranza, validación de migraciones, gráficos y CSV; estimación aproximada de 44 %. |
