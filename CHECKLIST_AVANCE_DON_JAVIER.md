@@ -2,17 +2,17 @@
 
 **Actualizado:** 21 de noviembre de 2026.
 
-**Hora local registrada antes de publicar esta actualización del checklist:** 2026-11-21 07:43 UTC-03:00. No es la marca de tiempo exacta de envío ni de recepción del servidor.
+**Hora local registrada antes de publicar esta actualización del checklist:** 2026-11-21 10:52 UTC-03:00. No es la marca de tiempo exacta de envío ni de recepción del servidor.
 
 **Fecha de una actualización anterior según GitHub:** 2026-11-21 04:26:13 UTC-03:00 (`2026-11-21 07:26:13 UTC`), commit [`c4c9ed4`](https://github.com/RAVS-TECH-MEDIA-SpA/aether-addon-inventory-management/commit/c4c9ed4b65248a31ce2b8e45e9c7a4fcd72337cf). Es la fecha de ese commit, no una confirmación independiente del instante exacto del push; puede diferir del reloj local. Las publicaciones posteriores pueden consultarse en el [historial de cambios](https://github.com/RAVS-TECH-MEDIA-SpA/aether-addon-inventory-management/commits/main/CHECKLIST_AVANCE_DON_JAVIER.md).
 
 **Referencia:** [Informe ejecutivo](INFORME_ADDON_GESTION_INVENTARIO_DON_JAVIER.md).
 
-**Estado general:** desarrollo en curso. La rama `feat/don-javier-demo` incluye hasta el commit `938cc99`: pedidos y despacho completo inicial, anulaciones auditadas, controles de conteo y reportes. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
+**Estado general:** desarrollo en curso. La rama `feat/don-javier-demo` incluye hasta el commit `110e0de`: recuperación POS, seguimiento inicial de despachos, etiquetas y propuesta manual de carga, además de las etapas previas. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
 
 ## Estimación global
 
-**Avance estimado: alrededor de 52 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
+**Avance estimado: alrededor de 55 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
 
 Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y un grado aproximado de 0 %, 25 %, 50 %, 75 % o 100 %. Se multiplican peso por grado y se suman los resultados. Un área parcialmente funcional no se considera terminada.
 
@@ -23,7 +23,7 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 3. Inventario inicial | 5 % | 75 % |
 | 4. Recepción y OCR | 10 % | 25 % |
 | 5. Stock mínimo y reposición | 8 % | 75 % |
-| 6. Traslados y despachos | 10 % | 50 % |
+| 6. Traslados y despachos | 10 % | 75 % |
 | 7. Punto de venta y códigos | 9 % | 50 % |
 | 8. Productos padre/hijo | 5 % | 75 % |
 | 9. Cuentas por cobrar | 8 % | 75 % |
@@ -33,7 +33,7 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 13. Multiempresa, planes y seguridad | 5 % | 50 % |
 | 14. Preparación y entrega | 4 % | 0 % |
 
-El cálculo ponderado es 52,25 %, redondeado a 52 %. Los aumentos reflejan el control de conteo inicial, pedidos y despacho completos iniciales, anulaciones, comprobante ficticio de despacho y reportes; siguen pendientes funciones fundamentales y validación real. Los pesos y grados son criterios de seguimiento sujetos a revisión.
+El cálculo ponderado es 54,75 %, redondeado a 55 %. El grado de traslados y despachos aumenta por el seguimiento inicial de conductor, QR de identificación y una propuesta manual de carga; no significa que el área esté terminada ni que el plan garantice seguridad. Se añadió además recuperación POS y una primera propuesta de etiquetas. Siguen pendientes funciones fundamentales, dispositivos reales y validación operacional. Los pesos y grados son criterios de seguimiento sujetos a revisión.
 
 **Leyenda:** `[x]` implementado y probado en el alcance indicado, generalmente con datos temporales; `[ ]` pendiente o incompleto. Una casilla marcada no implica despliegue ni aceptación final.
 
@@ -100,10 +100,13 @@ La demo local reutiliza el mecanismo SSE existente, solo para clientes conectado
 - [ ] Gestionar órdenes y estados de traslado, incluido tránsito.
 - [x] Registrar pedidos B2B manuales y despachar el pedido completo desde una ubicación, con descuento transaccional y anulación auditada.
 - [ ] Completar pedidos B2B con acceso de clientes, precios y despachos parciales.
-- [ ] Desarrollar seguimiento del despacho y experiencia del conductor.
+- [x] Asignar un conductor activo y registrar estados de traslado y entrega declarada, con auditoría y aislamiento por tienda.
+- [ ] Completar seguimiento del despacho y experiencia del conductor: reasignación, direcciones, rutas, confirmación del cliente y pruebas reales.
+- [x] Preparar una propuesta manual de carga sin apilar, con medidas, capacidad y paradas indicadas por el usuario.
+- [ ] Validar físicamente la propuesta: no controla ejes, sujeción, centro de gravedad ni compatibilidad de alimentos, y no garantiza seguridad.
 - [x] Generar comprobante ficticio específico para despacho a clientes.
 
-Ninguno de los comprobantes es una guía de despacho legal. Crear pedidos no reserva stock; el despacho no acredita entrega ni está conectado a cobranza.
+Ninguno de los comprobantes es una guía de despacho legal. Crear pedidos no reserva stock; el despacho no acredita entrega ni está conectado a cobranza. La entrega declarada por el conductor no prueba recepción ni pago. No hay reasignación de conductor: si se revoca o desactiva, el seguimiento queda bloqueado.
 
 ## 7. Punto de venta y códigos de barras
 
@@ -112,12 +115,12 @@ Ninguno de los comprobantes es una guía de despacho legal. Crear pedidos no res
 - [x] Registrar ventas de varias líneas y descontar stock de la sala transaccionalmente.
 - [x] Validar precio, stock y permisos; consultar historial y descargar comprobante ficticio.
 - [x] Reintentar una misma venta con identificador estable mientras se conserva en pantalla.
-- [ ] Mantener o recuperar de forma segura el identificador de reintento tras recarga o cierre.
+- [x] Conservar el identificador localmente y resolver el resultado incierto tras recarga o cierre en el mismo navegador y usuario.
 - [ ] Registrar medios de pago, descuentos, devoluciones e impuestos.
 - [ ] Implementar cierre de caja.
 - [ ] Probar lector de códigos e impresora físicos.
 
-Los precios existentes usan `Float`; el POS rechaza precios con más de dos decimales. Este flujo no configura moneda ni acredita pagos.
+Los precios existentes usan `Float`; el POS rechaza precios con más de dos decimales. Este flujo no configura moneda ni acredita pagos. Si se borra el almacenamiento del navegador o se cambia de dispositivo, no se recupera automáticamente el intento.
 
 ## 8. Productos padre/hijo
 
@@ -155,8 +158,12 @@ Los avisos se intentan desde las 09:00 de la zona comercial cuando hay saldo ven
 - [x] Comprobante ficticio de movimiento de inventario.
 - [x] Identificación de los comprobantes como sin validez tributaria.
 - [x] Comprobante ficticio específico de despacho a cliente, sin acreditar entrega.
+- [x] Preparar etiquetas monocromáticas de 1 kg y ½ kg y de despacho, con formato y cantidad seleccionables.
+- [x] Identificar el despacho mediante QR y consultar solo el asignado al conductor autenticado.
 - [ ] Impresión y pruebas con impresora física.
 - [ ] Emisión tributaria legal: fuera del alcance actual y pendiente de definición de proveedor.
+
+Las etiquetas de envasado se imprimen desde el navegador y no contienen lote, vencimiento ni otros datos reglamentarios. Su QR no registra inventario ni funciona como código de venta. El QR de despacho no contiene datos del cliente ni credenciales y solo identifica el pedido; escanearlo no acredita entrega. Es indispensable probar tamaños, lectura y calidad en la impresora, papel y cámara reales. La cantidad de etiquetas se elige manualmente según necesidad; no se ha supuesto un número por bodega.
 
 ## 11. Reportes y análisis
 
@@ -187,7 +194,7 @@ El reporte de ventas no es un cierre de caja ni una recomendación de compras. S
 - [x] Panel web inicial adaptable con menús y acciones por rol, diferenciado de Mayro.
 - [ ] Completar experiencias de administración, vendedor y bodega.
 - [ ] Desarrollar portal y experiencia de cliente.
-- [ ] Desarrollar experiencia de despacho y conductor.
+- [ ] Completar experiencia de despacho y conductor; existe una vista inicial para consultar asignaciones, leer QR y declarar estados.
 - [ ] Terminar diseño propio de la web y landing de Don Javier.
 - [ ] Crear una app móvil por tienda para los cinco roles y generar su APK.
 - [ ] Probar los flujos de extremo a extremo en teléfonos y dispositivos reales.
@@ -215,6 +222,7 @@ Los addons deben ser independientes entre sí. Las pruebas aisladas todavía no 
 - [x] Hacer commit y push de los gráficos y exportaciones a la rama del addon; commit `5e62d07` confirmado en GitHub.
 - [x] Hacer commit y push de la serie diaria, reportes paginados de cobranza y zona comercial de ventas; commit `35af531` confirmado en GitHub.
 - [x] Publicar pedidos y despachos iniciales, anulaciones, controles de conteo y reportes en `938cc99`.
+- [x] Publicar recuperación POS, seguimiento inicial, etiquetas y propuesta manual de carga en `110e0de`.
 - [ ] Crear y validar la demo persistente con autorización.
 - [ ] Probar teléfonos, conexión, lector, impresora y notificaciones push reales.
 - [ ] Resolver el problema de estilos pendiente en la APK de Mayro y verificar sus cambios junto con los de distribución.
@@ -222,7 +230,7 @@ Los addons deben ser independientes entre sí. Las pruebas aisladas todavía no 
 - [ ] Planificar capacitación y medir las metas de precisión, tiempo, stock, cobranza y cierre.
 - [ ] Revisar los cambios pendientes y completar la validación integral antes de hacer merge a `main`; no se hará merge hasta completar la tienda Don Javier.
 
-La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas. La etapa de pedidos, anulaciones y reportes pasó 34 pruebas API y 59 web dirigidas; además se verificaron 8 pruebas de pedidos, 19 de inventario y 39 web después de los últimos cambios. Las ocho migraciones de distribución se aplicaron en orden a PostgreSQL temporal aislado; se probó concurrencia entre despacho y POS, y rollback por conteo ausente. Angular compiló para producción y `local-mobile`; la API pasó verificación de tipos. Persisten advertencias de CSS Mayro, `qrcode` y `ts-jest`; Jest requirió `--forceExit`. No se ha generado ni probado una APK con estos cambios.
+La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas. La etapa de pedidos, anulaciones y reportes pasó 34 pruebas API y 59 web dirigidas. La etapa actual pasó 22 pruebas API de inventario/POS, 9 de pedidos y seguimiento, 34 web de POS/panel y 39 web de seguimiento, etiquetas, carga y panel; se repitió además una prueba del planificador tras su último ajuste. Las diez migraciones de distribución se aplicaron en orden a PostgreSQL temporal aislado. Angular compiló para producción y `local-mobile`; la API pasó verificación de tipos. Persisten advertencias de CSS Mayro, `qrcode` y `ts-jest`; Jest requirió `--forceExit`. No se ha generado ni probado una APK con estos cambios.
 
 ## Decisiones y límites vigentes
 
@@ -232,7 +240,7 @@ La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas. La etap
 - Para cobranza y reportes de ventas de distribución, UTC es el valor inicial y la zona puede ajustarse por tienda; hay avisos diarios de mejor esfuerzo para la demo, no garantizados en producción. Las reglas IANA de Node y PostgreSQL deben mantenerse actualizadas y compatibles.
 - La configuración o ampliación de Meta no forma parte de esta etapa y no se presume validada.
 - La entrega SSE local no es una bandeja persistente ni garantiza recepción cuando el usuario está desconectado.
-- La base de distribución se subió en `31be971`; la rama remota contiene también `b35a2d5`, los gráficos y CSV en `5e62d07`, los reportes diarios en `35af531` y la etapa actual en `938cc99`. Las correcciones de Mayro deben verificarse aparte; no se han aplicado migraciones a bases existentes.
+- La base de distribución se subió en `31be971`; la rama remota contiene también `b35a2d5`, los gráficos y CSV en `5e62d07`, los reportes diarios en `35af531`, la etapa de pedidos en `938cc99` y la etapa actual en `110e0de`. Las correcciones de Mayro deben verificarse aparte; no se han aplicado migraciones a bases existentes.
 
 ## Historial de actualización
 
@@ -243,3 +251,4 @@ La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas. La etap
 | 2026-11-21 entre 04:27:35 y 04:27:43 UTC-03:00 (reloj local) | Push del commit `5e62d07` de gráficos y CSV a `feat/don-javier-demo`, confirmado en GitHub. El intervalo corresponde al inicio y fin observados del comando, no al instante exacto de recepción. No hubo despliegue ni merge. |
 | 2026-11-21 entre 05:21:28 y 05:21:33 UTC-03:00 (reloj local) | Push del commit `35af531` de zona comercial, serie diaria y reportes paginados a `feat/don-javier-demo`, confirmado en GitHub. El intervalo corresponde al inicio y fin observados del comando, no al instante exacto de recepción. No hubo despliegue ni merge. |
 | 2026-11-21 entre 07:43:15 y 07:43:20 UTC-03:00 (reloj local) | Push del commit `938cc99` de pedidos, anulaciones, conteos y reportes a `feat/don-javier-demo`, confirmado en GitHub. Estimación aproximada: 52 %. No hubo despliegue ni merge. |
+| 2026-11-21 entre 10:52:18 y 10:52:25 UTC-03:00 (reloj local) | Push del commit `110e0de` de recuperación POS, seguimiento inicial, etiquetas y propuesta manual de carga a `feat/don-javier-demo`, confirmado en GitHub. Estimación aproximada: 55 %. No hubo despliegue ni merge. |
