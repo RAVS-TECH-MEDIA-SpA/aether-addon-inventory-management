@@ -2,17 +2,17 @@
 
 **Actualizado:** 21 de noviembre de 2026.
 
-**Hora de envío de esta actualización a GitHub:** 2026-11-21 04:23:23 -03:00. Hora local registrada inmediatamente antes de iniciar la publicación; no es la marca de tiempo exacta de recepción del servidor.
+**Hora de envío de la actualización anterior del checklist a GitHub:** 2026-11-21 04:23:23 UTC-03:00. Hora local registrada inmediatamente antes de iniciar la publicación; no es la marca de tiempo exacta de recepción del servidor.
 
 **Fecha del commit de la actualización de avances según GitHub:** 2026-11-21 04:26:13 UTC-03:00 (`2026-11-21 07:26:13 UTC`), commit [`c4c9ed4`](https://github.com/RAVS-TECH-MEDIA-SpA/aether-addon-inventory-management/commit/c4c9ed4b65248a31ce2b8e45e9c7a4fcd72337cf). Es la fecha del commit registrada por GitHub, no una confirmación independiente del instante exacto del push; puede diferir del reloj local. Las publicaciones posteriores pueden consultarse en el [historial de cambios](https://github.com/RAVS-TECH-MEDIA-SpA/aether-addon-inventory-management/commits/main/CHECKLIST_AVANCE_DON_JAVIER.md).
 
 **Referencia:** [Informe ejecutivo](INFORME_ADDON_GESTION_INVENTARIO_DON_JAVIER.md).
 
-**Estado general:** desarrollo en curso. La base del addon está subida a `feat/don-javier-demo`; los gráficos y exportaciones más recientes están solo en el entorno local, sin commit ni push. No se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
+**Estado general:** desarrollo en curso. La base del addon, gráficos y exportaciones están subidos a `feat/don-javier-demo`, incluido el commit `5e62d07`. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
 
 ## Estimación global
 
-**Avance estimado: alrededor de 44 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye el trabajo local aún no subido, informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
+**Avance estimado: alrededor de 44 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
 
 Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y un grado aproximado de 0 %, 25 %, 50 %, 75 % o 100 %. Se multiplican peso por grado y se suman los resultados. Un área parcialmente funcional no se considera terminada.
 
@@ -33,7 +33,7 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 13. Multiempresa, planes y seguridad | 5 % | 50 % |
 | 14. Preparación y entrega | 4 % | 0 % |
 
-El cálculo ponderado es 43,75 %, redondeado a 44 %. El cambio respecto de 42 % refleja los gráficos y exportaciones locales incorporados al área de reportes, no una medición automática. Los pesos y grados son criterios de seguimiento sujetos a revisión.
+El cálculo ponderado es 43,75 %, redondeado a 44 %. El cambio respecto de 42 % refleja los gráficos y exportaciones incorporados al área de reportes, no una medición automática. Los pesos y grados son criterios de seguimiento sujetos a revisión.
 
 **Leyenda:** `[x]` implementado y probado en el alcance indicado, generalmente con datos temporales; `[ ]` pendiente o incompleto. Una casilla marcada no implica despliegue ni aceptación final.
 
@@ -164,7 +164,7 @@ Los avisos se intentan desde las 09:00 de la zona comercial cuando hay saldo ven
 - [x] Ordenar productos vendidos por cantidad y comparar gráficamente hasta 10 por cantidad, importe o número de ventas, incluyendo mayores o menores.
 - [x] Mostrar gráficos y CSV para ventas, existencias filtradas, mínimos y resumen de cobranza; los vencidos son parte del total, no un importe adicional.
 - [x] Mostrar gráficos y exportar a CSV movimientos cargados y hasta las últimas 50 conversiones, indicando el alcance parcial.
-- [x] Compilar las visualizaciones adaptables para web y configuración móvil local; los cambios gráficos aún no tienen commit ni push.
+- [x] Compilar las visualizaciones adaptables para web y configuración móvil local y subir el commit de los gráficos a la rama del addon.
 - [ ] Implementar cierre diario automático y calendario comercial para ventas.
 - [ ] Incluir productos sin ventas, análisis histórico de tendencias y gráficos temporales.
 - [ ] Exportar y visualizar individualmente los listados paginados de clientes, deudas y pagos.
@@ -205,7 +205,7 @@ Los addons deben ser independientes entre sí. Las pruebas aisladas todavía no 
 - [x] Mantener sincronizados los modelos Prisma de API y workers y validar sus esquemas.
 - [x] Incluir las cinco migraciones de distribución en el commit y validarlas en orden sobre una línea base Prisma y PostgreSQL temporal aislado.
 - [ ] Aplicar y verificar las migraciones en un entorno existente autorizado.
-- [ ] Revisar, hacer commit y push de los gráficos y exportaciones locales.
+- [x] Hacer commit y push de los gráficos y exportaciones a la rama del addon; commit `5e62d07` confirmado en GitHub.
 - [ ] Crear y validar la demo persistente con autorización.
 - [ ] Probar teléfonos, conexión, lector, impresora y notificaciones push reales.
 - [ ] Resolver el problema de estilos pendiente en la APK de Mayro y verificar sus cambios junto con los de distribución.
@@ -213,7 +213,7 @@ Los addons deben ser independientes entre sí. Las pruebas aisladas todavía no 
 - [ ] Planificar capacitación y medir las metas de precisión, tiempo, stock, cobranza y cierre.
 - [ ] Revisar los cambios pendientes y completar la validación integral antes de hacer merge a `main`; no se hará merge hasta completar la tienda Don Javier.
 
-La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas, y las cinco migraciones se aplicaron en orden a PostgreSQL temporal aislado. Posteriormente, los gráficos y CSV locales pasaron 48 pruebas web dirigidas; Angular compiló para producción y para `local-mobile`. La compilación de producción conserva advertencias existentes de CSS de Mayro y de la dependencia `qrcode`. No se ha generado ni probado una APK con los cambios gráficos.
+La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas, y las cinco migraciones se aplicaron en orden a PostgreSQL temporal aislado. Posteriormente, los gráficos y CSV subidos pasaron 48 pruebas web dirigidas; Angular compiló para producción y para `local-mobile`. La compilación de producción conserva advertencias existentes de CSS de Mayro y de la dependencia `qrcode`. No se ha generado ni probado una APK con los cambios gráficos.
 
 ## Decisiones y límites vigentes
 
@@ -223,7 +223,7 @@ La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas, y las c
 - Para cobranza, UTC es el valor inicial y la zona puede ajustarse por tienda; hay avisos diarios de mejor esfuerzo para la demo, no garantizados en producción.
 - La configuración o ampliación de Meta no forma parte de esta etapa y no se presume validada.
 - La entrega SSE local no es una bandeja persistente ni garantiza recepción cuando el usuario está desconectado.
-- La base de distribución se subió en `31be971`; la rama remota también contiene el commit posterior `b35a2d5`. Los gráficos y CSV nuevos siguen locales y sin commit. Las correcciones de Mayro deben verificarse aparte; no se han aplicado migraciones a bases existentes.
+- La base de distribución se subió en `31be971`; la rama remota contiene también `b35a2d5` y los gráficos y CSV en `5e62d07`. Las correcciones de Mayro deben verificarse aparte; no se han aplicado migraciones a bases existentes.
 
 ## Historial de actualización
 
@@ -231,3 +231,4 @@ La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas, y las c
 |---|---|
 | 2026-11-21, hora de publicación no registrada | Primera versión persistente: inventario y POS iniciales, avisos de mínimos, cobranza manual, resumen, configuración de zona comercial y equivalencias aproximadas. |
 | 2026-11-21 04:23:23 UTC-03:00 (envío local); 04:26:13 UTC-03:00 (fecha del commit en GitHub) | Actualización del estado remoto y local, avisos de cobranza, validación de migraciones, gráficos y CSV; estimación aproximada de 44 %. |
+| 2026-11-21 entre 04:27:35 y 04:27:43 UTC-03:00 (reloj local) | Push del commit `5e62d07` de gráficos y CSV a `feat/don-javier-demo`, confirmado en GitHub. El intervalo corresponde al inicio y fin observados del comando, no al instante exacto de recepción. No hubo despliegue ni merge. |
