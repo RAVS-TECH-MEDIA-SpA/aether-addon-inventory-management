@@ -2,17 +2,17 @@
 
 **Actualizado:** 21 de noviembre de 2026.
 
-**Hora local registrada antes de publicar esta actualización del checklist:** 2026-11-21 05:22:05 UTC-03:00. No es la marca de tiempo exacta de envío ni de recepción del servidor.
+**Hora local registrada antes de publicar esta actualización del checklist:** 2026-11-21 07:43 UTC-03:00. No es la marca de tiempo exacta de envío ni de recepción del servidor.
 
-**Fecha del commit de la actualización de avances según GitHub:** 2026-11-21 04:26:13 UTC-03:00 (`2026-11-21 07:26:13 UTC`), commit [`c4c9ed4`](https://github.com/RAVS-TECH-MEDIA-SpA/aether-addon-inventory-management/commit/c4c9ed4b65248a31ce2b8e45e9c7a4fcd72337cf). Es la fecha del commit registrada por GitHub, no una confirmación independiente del instante exacto del push; puede diferir del reloj local. Las publicaciones posteriores pueden consultarse en el [historial de cambios](https://github.com/RAVS-TECH-MEDIA-SpA/aether-addon-inventory-management/commits/main/CHECKLIST_AVANCE_DON_JAVIER.md).
+**Fecha de una actualización anterior según GitHub:** 2026-11-21 04:26:13 UTC-03:00 (`2026-11-21 07:26:13 UTC`), commit [`c4c9ed4`](https://github.com/RAVS-TECH-MEDIA-SpA/aether-addon-inventory-management/commit/c4c9ed4b65248a31ce2b8e45e9c7a4fcd72337cf). Es la fecha de ese commit, no una confirmación independiente del instante exacto del push; puede diferir del reloj local. Las publicaciones posteriores pueden consultarse en el [historial de cambios](https://github.com/RAVS-TECH-MEDIA-SpA/aether-addon-inventory-management/commits/main/CHECKLIST_AVANCE_DON_JAVIER.md).
 
 **Referencia:** [Informe ejecutivo](INFORME_ADDON_GESTION_INVENTARIO_DON_JAVIER.md).
 
-**Estado general:** desarrollo en curso. La base del addon, gráficos, exportaciones y zona comercial para ventas están subidos a `feat/don-javier-demo`, incluido el commit `35af531`. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
+**Estado general:** desarrollo en curso. La rama `feat/don-javier-demo` incluye hasta el commit `938cc99`: pedidos y despacho completo inicial, anulaciones auditadas, controles de conteo y reportes. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
 
 ## Estimación global
 
-**Avance estimado: alrededor de 44 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
+**Avance estimado: alrededor de 52 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
 
 Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y un grado aproximado de 0 %, 25 %, 50 %, 75 % o 100 %. Se multiplican peso por grado y se suman los resultados. Un área parcialmente funcional no se considera terminada.
 
@@ -20,20 +20,20 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 |---|---:|---:|
 | 1. Tienda y preparación | 5 % | 0 % |
 | 2. Inventario centralizado | 10 % | 75 % |
-| 3. Inventario inicial | 5 % | 50 % |
+| 3. Inventario inicial | 5 % | 75 % |
 | 4. Recepción y OCR | 10 % | 25 % |
 | 5. Stock mínimo y reposición | 8 % | 75 % |
-| 6. Traslados y despachos | 10 % | 25 % |
+| 6. Traslados y despachos | 10 % | 50 % |
 | 7. Punto de venta y códigos | 9 % | 50 % |
 | 8. Productos padre/hijo | 5 % | 75 % |
-| 9. Cuentas por cobrar | 8 % | 50 % |
-| 10. Documentos ficticios | 3 % | 50 % |
-| 11. Reportes y análisis | 8 % | 50 % |
+| 9. Cuentas por cobrar | 8 % | 75 % |
+| 10. Documentos ficticios | 3 % | 75 % |
+| 11. Reportes y análisis | 8 % | 75 % |
 | 12. Web, app y roles | 10 % | 25 % |
 | 13. Multiempresa, planes y seguridad | 5 % | 50 % |
 | 14. Preparación y entrega | 4 % | 0 % |
 
-El cálculo ponderado es 43,75 %, redondeado a 44 %. Se mantiene la estimación anterior: los avances recientes completan partes del área de reportes, pero aún no justifican subir su grado al siguiente tramo del método. Los pesos y grados son criterios de seguimiento sujetos a revisión.
+El cálculo ponderado es 52,25 %, redondeado a 52 %. Los aumentos reflejan el control de conteo inicial, pedidos y despacho completos iniciales, anulaciones, comprobante ficticio de despacho y reportes; siguen pendientes funciones fundamentales y validación real. Los pesos y grados son criterios de seguimiento sujetos a revisión.
 
 **Leyenda:** `[x]` implementado y probado en el alcance indicado, generalmente con datos temporales; `[ ]` pendiente o incompleto. Una casilla marcada no implica despliegue ni aceptación final.
 
@@ -65,7 +65,9 @@ Las consultas reflejan los datos al cargar o actualizar; no se ha verificado act
 - [x] Registrar conteo inicial por producto y ubicación.
 - [x] Distinguir «sin conteo» de stock cero.
 - [ ] Definir y completar el proceso de conteo físico, revisión y puesta en marcha de todas las ubicaciones.
-- [ ] Resolver la recepción manual que puede crear stock sin un conteo previo explícito.
+- [x] Exigir conteo inicial en destino antes de recibir o trasladar; rechazar el traslado sin descontar origen.
+
+Los saldos anteriores a este control pueden haberse creado sin conteo físico; deben revisarse durante la puesta en marcha.
 
 ## 4. Recepción de proveedores y OCR
 
@@ -96,11 +98,12 @@ La demo local reutiliza el mecanismo SSE existente, solo para clientes conectado
 - [x] Registrar traslados internos atómicos entre ubicaciones, con responsable, fecha, producto, cantidad y referencia.
 - [x] Descargar un comprobante ficticio del movimiento.
 - [ ] Gestionar órdenes y estados de traslado, incluido tránsito.
-- [ ] Gestionar pedidos y despachos a clientes B2B.
+- [x] Registrar pedidos B2B manuales y despachar el pedido completo desde una ubicación, con descuento transaccional y anulación auditada.
+- [ ] Completar pedidos B2B con acceso de clientes, precios y despachos parciales.
 - [ ] Desarrollar seguimiento del despacho y experiencia del conductor.
-- [ ] Generar documentos ficticios específicos para despacho a clientes.
+- [x] Generar comprobante ficticio específico para despacho a clientes.
 
-El comprobante de movimiento no es una guía de despacho legal.
+Ninguno de los comprobantes es una guía de despacho legal. Crear pedidos no reserva stock; el despacho no acredita entrega ni está conectado a cobranza.
 
 ## 7. Punto de venta y códigos de barras
 
@@ -138,11 +141,11 @@ Las equivalencias actuales usan la regla configurada al consultar, no necesariam
 - [x] Configurar un país opcional y una zona horaria comercial por tienda para cobranza y reportes de ventas de distribución; UTC es el valor inicial.
 - [x] Intentar avisos diarios de cobranza en la demo local, con fecha comercial por tienda y deduplicación.
 - [ ] Configurar un disparador externo seguro para producción y validar la entrega real de avisos.
-- [ ] Diseñar correcciones o anulaciones auditadas para errores de captura.
+- [x] Anular deudas sin pagos activos y pagos con motivo y auditoría, conservando el historial y recalculando saldos.
 - [ ] Vincular créditos con pedidos o ventas y definir conciliación.
 - [ ] Mantener o recuperar la clave de reintento de forma segura tras recarga o cierre.
 
-El libro es manual y ficticio; no acredita pagos reales ni está conectado a POS o pedidos. Las deudas y pagos son inmutables y todavía no existe procedimiento de corrección. La zona comercial de distribución es independiente del país del comprador y puede cambiar qué deudas aparecen vencidas y a qué día pertenecen ventas históricas. La configuración implementada no configura la tienda general ni sus mercados internacionales. `America/Santiago` debe seleccionarse explícitamente: no se ha configurado una tienda persistente Don Javier.
+El libro es manual y ficticio; no acredita pagos reales ni está conectado a POS o pedidos. Las deudas y pagos originales son inmutables; las anulaciones agregan eventos auditados. La zona comercial de distribución es independiente del país del comprador y puede cambiar qué deudas aparecen vencidas y a qué día pertenecen ventas históricas. La configuración implementada no configura la tienda general ni sus mercados internacionales. `America/Santiago` debe seleccionarse explícitamente: no se ha configurado una tienda persistente Don Javier.
 
 Los avisos se intentan desde las 09:00 de la zona comercial cuando hay saldo vencido y destinatarios autorizados. En la demo local se usa SSE para usuarios conectados. La entrega es de mejor esfuerzo: no hay bandeja persistente ni reintento garantizado; el temporizador interno no garantiza ejecución en Cloud Run.
 
@@ -151,7 +154,7 @@ Los avisos se intentan desde las 09:00 de la zona comercial cuando hay saldo ven
 - [x] Comprobante ficticio de venta con productos, cantidades y valores.
 - [x] Comprobante ficticio de movimiento de inventario.
 - [x] Identificación de los comprobantes como sin validez tributaria.
-- [ ] Comprobante ficticio específico de despacho a cliente.
+- [x] Comprobante ficticio específico de despacho a cliente, sin acreditar entrega.
 - [ ] Impresión y pruebas con impresora física.
 - [ ] Emisión tributaria legal: fuera del alcance actual y pendiente de definición de proveedor.
 
@@ -168,12 +171,14 @@ Los avisos se intentan desde las 09:00 de la zona comercial cuando hay saldo ven
 - [x] Mostrar gráficos y CSV para las páginas cargadas de clientes, deudas y pagos, indicando si faltan páginas y que no son una instantánea completa.
 - [x] Compilar las visualizaciones adaptables para web y configuración móvil local y subir el commit de los gráficos a la rama del addon.
 - [ ] Implementar cierre diario automático.
-- [ ] Incluir productos sin ventas y ampliar el análisis histórico de tendencias.
+- [x] Incluir opcionalmente productos actualmente activos sin ventas y seleccionar semestres calendario.
+- [x] Estimar demanda POS mediante promedio diario para un horizonte elegido y exportar CSV.
+- [ ] Ampliar el análisis histórico con pedidos B2B, estacionalidad y tendencias.
 - [ ] Incorporar reportes completos de clientes, deudas y pagos que no dependan solo de páginas cargadas.
 - [ ] Desarrollar proyecciones de reposición y compra, incluido el reporte semestral.
 - [ ] Completar un panel ejecutivo integrado y actualizado para la operación diaria.
 
-El reporte de ventas no es un cierre de caja ni una proyección de compras. Sus fechas usan la zona comercial de distribución indicada en el reporte y CSV; cambiarla puede desplazar ventas históricas entre días, sin cambiar los instantes almacenados en UTC. Los gráficos de productos solo incluyen los que tuvieron ventas; las cantidades de productos con distintas unidades no son directamente comparables. Los valores se muestran de forma exacta y las barras o porcentajes son representaciones relativas aproximadas. El CSV de ventas incluye todos los productos vendidos, no solo los 10 del gráfico. Las equivalencias usan reglas actuales y son alternativas que no deben sumarse.
+El reporte de ventas no es un cierre de caja ni una recomendación de compras. Sus fechas usan la zona comercial de distribución indicada en el reporte y CSV; cambiarla puede desplazar ventas históricas entre días, sin cambiar los instantes almacenados en UTC. La estimación extrapola solo ventas POS, no contempla pedidos B2B, stock, estacionalidad ni compras en tránsito; cero ventas no demuestra ausencia de demanda. Se pueden incluir productos actualmente activos sin ventas, no productos descontinuados sin ventas. Las cantidades de productos con distintas unidades no son directamente comparables. El CSV incluye todos los productos del alcance seleccionado, no solo los 10 del gráfico. Las equivalencias usan reglas actuales y son alternativas que no deben sumarse.
 
 ## 12. Web, app y roles
 
@@ -209,6 +214,7 @@ Los addons deben ser independientes entre sí. Las pruebas aisladas todavía no 
 - [ ] Aplicar y verificar las migraciones en un entorno existente autorizado.
 - [x] Hacer commit y push de los gráficos y exportaciones a la rama del addon; commit `5e62d07` confirmado en GitHub.
 - [x] Hacer commit y push de la serie diaria, reportes paginados de cobranza y zona comercial de ventas; commit `35af531` confirmado en GitHub.
+- [x] Publicar pedidos y despachos iniciales, anulaciones, controles de conteo y reportes en `938cc99`.
 - [ ] Crear y validar la demo persistente con autorización.
 - [ ] Probar teléfonos, conexión, lector, impresora y notificaciones push reales.
 - [ ] Resolver el problema de estilos pendiente en la APK de Mayro y verificar sus cambios junto con los de distribución.
@@ -216,7 +222,7 @@ Los addons deben ser independientes entre sí. Las pruebas aisladas todavía no 
 - [ ] Planificar capacitación y medir las metas de precisión, tiempo, stock, cobranza y cierre.
 - [ ] Revisar los cambios pendientes y completar la validación integral antes de hacer merge a `main`; no se hará merge hasta completar la tienda Don Javier.
 
-La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas, y las cinco migraciones se aplicaron en orden a PostgreSQL temporal aislado. La actualización más reciente pasó 19 pruebas API de ventas y cobranza en PostgreSQL temporal con zona del servidor no UTC y 50 pruebas web dirigidas; incluyó cambios de hora de Santiago, medianoche repetida, fecha omitida y aislamiento por tienda. Angular compiló para producción y para `local-mobile`; la API pasó verificación de tipos. La compilación de producción conserva advertencias existentes de CSS de Mayro y de la dependencia `qrcode`. No se ha generado ni probado una APK con estos cambios.
+La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas. La etapa de pedidos, anulaciones y reportes pasó 34 pruebas API y 59 web dirigidas; además se verificaron 8 pruebas de pedidos, 19 de inventario y 39 web después de los últimos cambios. Las ocho migraciones de distribución se aplicaron en orden a PostgreSQL temporal aislado; se probó concurrencia entre despacho y POS, y rollback por conteo ausente. Angular compiló para producción y `local-mobile`; la API pasó verificación de tipos. Persisten advertencias de CSS Mayro, `qrcode` y `ts-jest`; Jest requirió `--forceExit`. No se ha generado ni probado una APK con estos cambios.
 
 ## Decisiones y límites vigentes
 
@@ -226,7 +232,7 @@ La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas, y las c
 - Para cobranza y reportes de ventas de distribución, UTC es el valor inicial y la zona puede ajustarse por tienda; hay avisos diarios de mejor esfuerzo para la demo, no garantizados en producción. Las reglas IANA de Node y PostgreSQL deben mantenerse actualizadas y compatibles.
 - La configuración o ampliación de Meta no forma parte de esta etapa y no se presume validada.
 - La entrega SSE local no es una bandeja persistente ni garantiza recepción cuando el usuario está desconectado.
-- La base de distribución se subió en `31be971`; la rama remota contiene también `b35a2d5`, los gráficos y CSV en `5e62d07` y los reportes diarios y zona comercial en `35af531`. Las correcciones de Mayro deben verificarse aparte; no se han aplicado migraciones a bases existentes.
+- La base de distribución se subió en `31be971`; la rama remota contiene también `b35a2d5`, los gráficos y CSV en `5e62d07`, los reportes diarios en `35af531` y la etapa actual en `938cc99`. Las correcciones de Mayro deben verificarse aparte; no se han aplicado migraciones a bases existentes.
 
 ## Historial de actualización
 
@@ -236,3 +242,4 @@ La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas, y las c
 | 2026-11-21 04:23:23 UTC-03:00 (envío local); 04:26:13 UTC-03:00 (fecha del commit en GitHub) | Actualización del estado remoto y local, avisos de cobranza, validación de migraciones, gráficos y CSV; estimación aproximada de 44 %. |
 | 2026-11-21 entre 04:27:35 y 04:27:43 UTC-03:00 (reloj local) | Push del commit `5e62d07` de gráficos y CSV a `feat/don-javier-demo`, confirmado en GitHub. El intervalo corresponde al inicio y fin observados del comando, no al instante exacto de recepción. No hubo despliegue ni merge. |
 | 2026-11-21 entre 05:21:28 y 05:21:33 UTC-03:00 (reloj local) | Push del commit `35af531` de zona comercial, serie diaria y reportes paginados a `feat/don-javier-demo`, confirmado en GitHub. El intervalo corresponde al inicio y fin observados del comando, no al instante exacto de recepción. No hubo despliegue ni merge. |
+| 2026-11-21 entre 07:43:15 y 07:43:20 UTC-03:00 (reloj local) | Push del commit `938cc99` de pedidos, anulaciones, conteos y reportes a `feat/don-javier-demo`, confirmado en GitHub. Estimación aproximada: 52 %. No hubo despliegue ni merge. |
