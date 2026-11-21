@@ -2,13 +2,13 @@
 
 **Actualizado:** 21 de noviembre de 2026.
 
-**Hora de envío de la actualización anterior del checklist a GitHub:** 2026-11-21 04:23:23 UTC-03:00. Hora local registrada inmediatamente antes de iniciar la publicación; no es la marca de tiempo exacta de recepción del servidor.
+**Hora local registrada antes de publicar esta actualización del checklist:** 2026-11-21 05:22:05 UTC-03:00. No es la marca de tiempo exacta de envío ni de recepción del servidor.
 
 **Fecha del commit de la actualización de avances según GitHub:** 2026-11-21 04:26:13 UTC-03:00 (`2026-11-21 07:26:13 UTC`), commit [`c4c9ed4`](https://github.com/RAVS-TECH-MEDIA-SpA/aether-addon-inventory-management/commit/c4c9ed4b65248a31ce2b8e45e9c7a4fcd72337cf). Es la fecha del commit registrada por GitHub, no una confirmación independiente del instante exacto del push; puede diferir del reloj local. Las publicaciones posteriores pueden consultarse en el [historial de cambios](https://github.com/RAVS-TECH-MEDIA-SpA/aether-addon-inventory-management/commits/main/CHECKLIST_AVANCE_DON_JAVIER.md).
 
 **Referencia:** [Informe ejecutivo](INFORME_ADDON_GESTION_INVENTARIO_DON_JAVIER.md).
 
-**Estado general:** desarrollo en curso. La base del addon, gráficos y exportaciones están subidos a `feat/don-javier-demo`, incluido el commit `5e62d07`. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
+**Estado general:** desarrollo en curso. La base del addon, gráficos, exportaciones y zona comercial para ventas están subidos a `feat/don-javier-demo`, incluido el commit `35af531`. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
 
 ## Estimación global
 
@@ -33,7 +33,7 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 13. Multiempresa, planes y seguridad | 5 % | 50 % |
 | 14. Preparación y entrega | 4 % | 0 % |
 
-El cálculo ponderado es 43,75 %, redondeado a 44 %. El cambio respecto de 42 % refleja los gráficos y exportaciones incorporados al área de reportes, no una medición automática. Los pesos y grados son criterios de seguimiento sujetos a revisión.
+El cálculo ponderado es 43,75 %, redondeado a 44 %. Se mantiene la estimación anterior: los avances recientes completan partes del área de reportes, pero aún no justifican subir su grado al siguiente tramo del método. Los pesos y grados son criterios de seguimiento sujetos a revisión.
 
 **Leyenda:** `[x]` implementado y probado en el alcance indicado, generalmente con datos temporales; `[ ]` pendiente o incompleto. Una casilla marcada no implica despliegue ni aceptación final.
 
@@ -135,14 +135,14 @@ Las equivalencias actuales usan la regla configurada al consultar, no necesariam
 - [x] Registrar pagos parciales o totales, sin permitir sobrepago; consultar historial.
 - [x] Filtrar clientes morosos en el servidor antes de paginar.
 - [x] Consultar resumen global de saldos, deudas y clientes vencidos.
-- [x] Configurar para cobranza un país opcional y una zona horaria por tienda; UTC es el valor inicial.
+- [x] Configurar un país opcional y una zona horaria comercial por tienda para cobranza y reportes de ventas de distribución; UTC es el valor inicial.
 - [x] Intentar avisos diarios de cobranza en la demo local, con fecha comercial por tienda y deduplicación.
 - [ ] Configurar un disparador externo seguro para producción y validar la entrega real de avisos.
 - [ ] Diseñar correcciones o anulaciones auditadas para errores de captura.
 - [ ] Vincular créditos con pedidos o ventas y definir conciliación.
 - [ ] Mantener o recuperar la clave de reintento de forma segura tras recarga o cierre.
 
-El libro es manual y ficticio; no acredita pagos reales ni está conectado a POS o pedidos. Las deudas y pagos son inmutables y todavía no existe procedimiento de corrección. La zona de cobranza es independiente del país del comprador y puede cambiar qué deudas aparecen vencidas. La configuración implementada no configura la tienda general ni sus mercados internacionales.
+El libro es manual y ficticio; no acredita pagos reales ni está conectado a POS o pedidos. Las deudas y pagos son inmutables y todavía no existe procedimiento de corrección. La zona comercial de distribución es independiente del país del comprador y puede cambiar qué deudas aparecen vencidas y a qué día pertenecen ventas históricas. La configuración implementada no configura la tienda general ni sus mercados internacionales. `America/Santiago` debe seleccionarse explícitamente: no se ha configurado una tienda persistente Don Javier.
 
 Los avisos se intentan desde las 09:00 de la zona comercial cuando hay saldo vencido y destinatarios autorizados. En la demo local se usa SSE para usuarios conectados. La entrega es de mejor esfuerzo: no hay bandeja persistente ni reintento garantizado; el temporizador interno no garantiza ejecución en Cloud Run.
 
@@ -158,20 +158,22 @@ Los avisos se intentan desde las 09:00 de la zona comercial cuando hay saldo ven
 ## 11. Reportes y análisis
 
 - [x] Consultar stock, mínimos, movimientos, conversiones e historial de ventas.
-- [x] Consultar ventas por producto y período, con CSV y fechas inclusivas UTC.
+- [x] Consultar ventas por producto y período, con CSV y fechas inclusivas en la zona comercial configurada; UTC es el valor inicial.
+- [x] Consultar ventas diarias con gráfico por bloques y CSV, incluyendo días sin ventas y aplicando cambios de hora de la zona seleccionada.
 - [x] Consultar equivalencias padre/hijo aproximadas usando las reglas actuales.
 - [x] Consultar un resumen manual de cobranza de toda la tienda.
 - [x] Ordenar productos vendidos por cantidad y comparar gráficamente hasta 10 por cantidad, importe o número de ventas, incluyendo mayores o menores.
 - [x] Mostrar gráficos y CSV para ventas, existencias filtradas, mínimos y resumen de cobranza; los vencidos son parte del total, no un importe adicional.
 - [x] Mostrar gráficos y exportar a CSV movimientos cargados y hasta las últimas 50 conversiones, indicando el alcance parcial.
+- [x] Mostrar gráficos y CSV para las páginas cargadas de clientes, deudas y pagos, indicando si faltan páginas y que no son una instantánea completa.
 - [x] Compilar las visualizaciones adaptables para web y configuración móvil local y subir el commit de los gráficos a la rama del addon.
-- [ ] Implementar cierre diario automático y calendario comercial para ventas.
-- [ ] Incluir productos sin ventas, análisis histórico de tendencias y gráficos temporales.
-- [ ] Exportar y visualizar individualmente los listados paginados de clientes, deudas y pagos.
+- [ ] Implementar cierre diario automático.
+- [ ] Incluir productos sin ventas y ampliar el análisis histórico de tendencias.
+- [ ] Incorporar reportes completos de clientes, deudas y pagos que no dependan solo de páginas cargadas.
 - [ ] Desarrollar proyecciones de reposición y compra, incluido el reporte semestral.
 - [ ] Completar un panel ejecutivo integrado y actualizado para la operación diaria.
 
-El reporte de ventas no es un cierre de caja ni una proyección de compras. Su período aún se interpreta en UTC, independientemente de la zona de cobranza. Los gráficos de productos solo incluyen los que tuvieron ventas; las cantidades de productos con distintas unidades no son directamente comparables. Los valores se muestran de forma exacta y las barras o porcentajes son representaciones relativas aproximadas. El CSV de ventas incluye todos los productos vendidos, no solo los 10 del gráfico. Las equivalencias usan reglas actuales y son alternativas que no deben sumarse.
+El reporte de ventas no es un cierre de caja ni una proyección de compras. Sus fechas usan la zona comercial de distribución indicada en el reporte y CSV; cambiarla puede desplazar ventas históricas entre días, sin cambiar los instantes almacenados en UTC. Los gráficos de productos solo incluyen los que tuvieron ventas; las cantidades de productos con distintas unidades no son directamente comparables. Los valores se muestran de forma exacta y las barras o porcentajes son representaciones relativas aproximadas. El CSV de ventas incluye todos los productos vendidos, no solo los 10 del gráfico. Las equivalencias usan reglas actuales y son alternativas que no deben sumarse.
 
 ## 12. Web, app y roles
 
@@ -206,6 +208,7 @@ Los addons deben ser independientes entre sí. Las pruebas aisladas todavía no 
 - [x] Incluir las cinco migraciones de distribución en el commit y validarlas en orden sobre una línea base Prisma y PostgreSQL temporal aislado.
 - [ ] Aplicar y verificar las migraciones en un entorno existente autorizado.
 - [x] Hacer commit y push de los gráficos y exportaciones a la rama del addon; commit `5e62d07` confirmado en GitHub.
+- [x] Hacer commit y push de la serie diaria, reportes paginados de cobranza y zona comercial de ventas; commit `35af531` confirmado en GitHub.
 - [ ] Crear y validar la demo persistente con autorización.
 - [ ] Probar teléfonos, conexión, lector, impresora y notificaciones push reales.
 - [ ] Resolver el problema de estilos pendiente en la APK de Mayro y verificar sus cambios junto con los de distribución.
@@ -213,17 +216,17 @@ Los addons deben ser independientes entre sí. Las pruebas aisladas todavía no 
 - [ ] Planificar capacitación y medir las metas de precisión, tiempo, stock, cobranza y cierre.
 - [ ] Revisar los cambios pendientes y completar la validación integral antes de hacer merge a `main`; no se hará merge hasta completar la tienda Don Javier.
 
-La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas, y las cinco migraciones se aplicaron en orden a PostgreSQL temporal aislado. Posteriormente, los gráficos y CSV subidos pasaron 48 pruebas web dirigidas; Angular compiló para producción y para `local-mobile`. La compilación de producción conserva advertencias existentes de CSS de Mayro y de la dependencia `qrcode`. No se ha generado ni probado una APK con los cambios gráficos.
+La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas, y las cinco migraciones se aplicaron en orden a PostgreSQL temporal aislado. La actualización más reciente pasó 19 pruebas API de ventas y cobranza en PostgreSQL temporal con zona del servidor no UTC y 50 pruebas web dirigidas; incluyó cambios de hora de Santiago, medianoche repetida, fecha omitida y aislamiento por tienda. Angular compiló para producción y para `local-mobile`; la API pasó verificación de tipos. La compilación de producción conserva advertencias existentes de CSS de Mayro y de la dependencia `qrcode`. No se ha generado ni probado una APK con estos cambios.
 
 ## Decisiones y límites vigentes
 
 - Distribución se activa individualmente por tienda y debe coexistir con otros addons desde PRO.
 - Una app por tienda debe cubrir los cinco roles; la identidad visual de Don Javier debe ser distinta de Mayro.
 - Los documentos y registros legales son ficticios por ahora, sin validez tributaria.
-- Para cobranza, UTC es el valor inicial y la zona puede ajustarse por tienda; hay avisos diarios de mejor esfuerzo para la demo, no garantizados en producción.
+- Para cobranza y reportes de ventas de distribución, UTC es el valor inicial y la zona puede ajustarse por tienda; hay avisos diarios de mejor esfuerzo para la demo, no garantizados en producción. Las reglas IANA de Node y PostgreSQL deben mantenerse actualizadas y compatibles.
 - La configuración o ampliación de Meta no forma parte de esta etapa y no se presume validada.
 - La entrega SSE local no es una bandeja persistente ni garantiza recepción cuando el usuario está desconectado.
-- La base de distribución se subió en `31be971`; la rama remota contiene también `b35a2d5` y los gráficos y CSV en `5e62d07`. Las correcciones de Mayro deben verificarse aparte; no se han aplicado migraciones a bases existentes.
+- La base de distribución se subió en `31be971`; la rama remota contiene también `b35a2d5`, los gráficos y CSV en `5e62d07` y los reportes diarios y zona comercial en `35af531`. Las correcciones de Mayro deben verificarse aparte; no se han aplicado migraciones a bases existentes.
 
 ## Historial de actualización
 
@@ -232,3 +235,4 @@ La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas, y las c
 | 2026-11-21, hora de publicación no registrada | Primera versión persistente: inventario y POS iniciales, avisos de mínimos, cobranza manual, resumen, configuración de zona comercial y equivalencias aproximadas. |
 | 2026-11-21 04:23:23 UTC-03:00 (envío local); 04:26:13 UTC-03:00 (fecha del commit en GitHub) | Actualización del estado remoto y local, avisos de cobranza, validación de migraciones, gráficos y CSV; estimación aproximada de 44 %. |
 | 2026-11-21 entre 04:27:35 y 04:27:43 UTC-03:00 (reloj local) | Push del commit `5e62d07` de gráficos y CSV a `feat/don-javier-demo`, confirmado en GitHub. El intervalo corresponde al inicio y fin observados del comando, no al instante exacto de recepción. No hubo despliegue ni merge. |
+| 2026-11-21 entre 05:21:28 y 05:21:33 UTC-03:00 (reloj local) | Push del commit `35af531` de zona comercial, serie diaria y reportes paginados a `feat/don-javier-demo`, confirmado en GitHub. El intervalo corresponde al inicio y fin observados del comando, no al instante exacto de recepción. No hubo despliegue ni merge. |
