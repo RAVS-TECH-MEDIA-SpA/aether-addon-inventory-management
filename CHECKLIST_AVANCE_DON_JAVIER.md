@@ -8,19 +8,19 @@
 
 **Referencia:** [Informe ejecutivo](INFORME_ADDON_GESTION_INVENTARIO_DON_JAVIER.md).
 
-**Estado general:** desarrollo en curso. La rama `feat/don-javier-demo` incluye hasta el commit `86a79a4`, con recepción asistida, ajustes de despachos, cobranza y una consulta inicial de pedidos del cliente. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
+**Estado general:** desarrollo en curso. La rama `feat/don-javier-demo` incluye hasta el commit `3ac7057`, con datos ficticios aislados, perfil independiente y portal ampliado del cliente. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
 
-**Avance publicado:** reasignación y transferencia auditadas, corrección de dirección, lectura asistida de fotografías con revisión humana, recepción atómica, custodia opcional, recuperación de cobranza y consulta inicial de pedidos del cliente. El OCR se probó con respuestas simuladas y está deshabilitado hasta configurar y validar Google Cloud. La custodia también está deshabilitada por defecto. El 22 de noviembre pasaron 129 pruebas web, 4 pruebas de OCR simulado y 3 pruebas API del portal con PostgreSQL temporal; se aplicaron las 20 migraciones de distribución en esa base aislada, se validaron ambos esquemas Prisma y la comprobación de tipos API, y compiló la web de producción. No se ejecutó el conjunto completo de pruebas API en esta revisión.
+**Avance publicado:** además de los flujos anteriores, hay un generador protegido de datos ficticios, acceso por cinco perfiles, landing local y cliente con solicitud y consulta de pedidos, consulta de saldos y declaración de recepción. El 22 de noviembre pasaron 30 pruebas web dirigidas, 7 pruebas API de demo y CORS y 48 pruebas API de regresión de pedidos e inventario; se aplicaron 22 migraciones de distribución en bases PostgreSQL temporales, se validaron ambos esquemas Prisma y tipos de API, compiló Angular `local-don-javier` y se validaron manifiestos y recursos Android sin generar APK. No se ejecutaron todas las pruebas del repositorio. El OCR y la custodia siguen deshabilitados y no se han probado en condiciones reales.
 
 ## Estimación global
 
-**Avance estimado: alrededor de 57 %** del alcance integral acordado, no de preparación para producción. Se mantiene la última estimación ponderada registrada; los avances incrementales posteriores no se han recalculado. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
+**Avance estimado: alrededor de 61 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
 
 Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y un grado aproximado de 0 %, 25 %, 50 %, 75 % o 100 %. Se multiplican peso por grado y se suman los resultados. Un área parcialmente funcional no se considera terminada.
 
 | Área | Peso | Grado estimado |
 |---|---:|---:|
-| 1. Tienda y preparación | 5 % | 0 % |
+| 1. Tienda y preparación | 5 % | 25 % |
 | 2. Inventario centralizado | 10 % | 75 % |
 | 3. Inventario inicial | 5 % | 75 % |
 | 4. Recepción y OCR | 10 % | 50 % |
@@ -31,11 +31,11 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 9. Cuentas por cobrar | 8 % | 75 % |
 | 10. Documentos ficticios | 3 % | 75 % |
 | 11. Reportes y análisis | 8 % | 75 % |
-| 12. Web, app y roles | 10 % | 25 % |
+| 12. Web, app y roles | 10 % | 50 % |
 | 13. Multiempresa, planes y seguridad | 5 % | 50 % |
 | 14. Preparación y entrega | 4 % | 0 % |
 
-El cálculo ponderado registrado es 57,25 %, redondeado a 57 %. La recepción sube de 25 % a 50 % por la revisión asistida simulada y el registro atómico probado; todavía faltan prueba real de OCR y aprobación operativa de la custodia. El grado de traslados y despachos refleja seguimiento inicial, QR y propuesta manual de carga; no significa que el área esté terminada ni que el plan garantice seguridad. Siguen pendientes funciones fundamentales, dispositivos reales y validación operacional. Los pesos y grados son criterios de seguimiento sujetos a revisión.
+El cálculo ponderado registrado es 61 %, frente a 57,25 % anterior. Tienda y preparación pasa de 0 % a 25 % por el generador y las pruebas con datos temporales, no por una tienda persistente. Web, app y roles pasa de 25 % a 50 % por el perfil independiente y las funciones iniciales del cliente; la APK y la validación física siguen pendientes. Los pesos y grados son criterios manuales sujetos a revisión.
 
 **Leyenda:** `[x]` implementado y probado en el alcance indicado, generalmente con datos temporales; `[ ]` pendiente o incompleto. Una casilla marcada no implica despliegue ni aceptación final.
 
@@ -48,7 +48,7 @@ El cálculo ponderado registrado es 57,25 %, redondeado a 57 %. La recepción su
 - [ ] Completar conteos físicos iniciales.
 - [ ] Configurar marca, catálogo y dominio, y verificar la landing pública.
 
-Existe una plantilla de storefront compartida y dinámica por tienda; crear un tenant no garantiza que DNS, hosting, dominio, marca y catálogo estén listos. No se han creado durante este trabajo una tienda, usuarios ni productos persistentes de Don Javier. Las pruebas usaron datos sintéticos temporales. Antes de crear datos o aplicar migraciones en un entorno compartido se requiere autorización.
+Existe un generador para una base local aislada y vacía, probado con tienda, cuatro cuentas de personal, una de cliente, tres clientes, cuatro ubicaciones y 24 productos ficticios. No se han creado una tienda, usuarios ni productos persistentes de Don Javier. Las pruebas usaron datos temporales. La landing local no equivale a dominio o hosting público. Antes de crear datos o aplicar migraciones en un entorno compartido se requiere autorización.
 
 ## 2. Inventario centralizado
 
@@ -105,6 +105,7 @@ La demo local reutiliza el mecanismo SSE existente, solo para clientes conectado
 - [x] Descargar un comprobante ficticio del movimiento.
 - [ ] Gestionar órdenes y estados de traslado, incluido tránsito.
 - [x] Registrar pedidos B2B manuales y despachar el pedido completo desde una ubicación, con descuento transaccional y anulación auditada.
+- [x] Permitir solicitudes de pedidos por clientes autenticados y declaración de recepción tras la entrega declarada, probadas con datos temporales y aislamiento por tienda y cliente.
 - [ ] Completar pedidos B2B con acceso de clientes, precios y despachos parciales.
 - [x] Asignar un conductor activo y registrar estados de traslado y entrega declarada, con auditoría y aislamiento por tienda.
 - [x] Reasignar un conductor antes del traslado, con motivo, auditoría y pérdida de acceso del conductor anterior; migración y concurrencia probadas en bases temporales.
@@ -226,13 +227,14 @@ Los nuevos reportes locales de deudas y pagos utilizan una consulta por reporte,
 - [x] Panel web inicial adaptable con menús y acciones por rol, diferenciado de Mayro.
 - [ ] Completar experiencias de administración, vendedor y bodega.
 - [x] Permitir al cliente autenticado consultar sus pedidos y estados declarados, con aislamiento por tienda y cliente; probado con datos sintéticos.
-- [ ] Completar portal y experiencia de cliente: crear pedidos, consultar deudas y confirmar la recepción.
+- [x] Permitir al cliente solicitar pedidos, consultar saldos y declarar recepción tras la entrega declarada, con pruebas locales.
+- [ ] Completar la experiencia de cliente, incluidos precios confirmados y validación en dispositivos reales.
 - [ ] Completar experiencia de despacho y conductor; existe una vista inicial para consultar asignaciones, leer QR y declarar estados.
 - [ ] Terminar diseño propio de la web y landing de Don Javier.
 - [ ] Crear una app móvil por tienda para los cinco roles y generar su APK.
 - [ ] Probar los flujos de extremo a extremo en teléfonos y dispositivos reales.
 
-El portal inicial solo permite consultar pedidos registrados por la tienda; no acredita recepción ni pago. Una pantalla responsive no equivale a una app móvil terminada. Los cinco roles previstos son cliente, vendedor, administrador, bodega y despacho.
+El pedido no reserva stock ni fija precios: los valores del catálogo son referenciales. La recepción es una declaración del cliente; no comprueba automáticamente el contenido ni acredita pago. La interfaz guarda el intento de pedido en el navegador para reintentos, pero cambiar de navegador o borrar sus datos pierde esa recuperación. Una pantalla responsive no equivale a una app móvil terminada. Los cinco roles previstos son cliente, vendedor, administrador, bodega y despacho.
 
 ## 13. Multiempresa, planes y seguridad
 
@@ -250,13 +252,14 @@ Los addons deben ser independientes entre sí. Las pruebas aisladas todavía no 
 
 - [x] Compilar Angular para producción y ejecutar pruebas dirigidas de API e interfaz en el alcance implementado.
 - [x] Mantener sincronizados los modelos Prisma de API y workers y validar sus esquemas.
-- [x] Incluir las 20 migraciones de distribución y validarlas en orden sobre una línea base Prisma y PostgreSQL temporal aislado.
+- [x] Incluir las 22 migraciones de distribución y validarlas en orden sobre una línea base Prisma y PostgreSQL temporal aislado.
 - [ ] Aplicar y verificar las migraciones en un entorno existente autorizado.
 - [x] Hacer commit y push de los gráficos y exportaciones a la rama del addon; commit `5e62d07` confirmado en GitHub.
 - [x] Hacer commit y push de la serie diaria, reportes paginados de cobranza y zona comercial de ventas; commit `35af531` confirmado en GitHub.
 - [x] Publicar pedidos y despachos iniciales, anulaciones, controles de conteo y reportes en `938cc99`.
 - [x] Publicar recuperación POS, seguimiento inicial, etiquetas y propuesta manual de carga en `110e0de`.
 - [x] Publicar recepción asistida, ajustes de despacho y cobranza, reportes y consulta inicial de pedidos del cliente en `86a79a4`.
+- [x] Publicar perfil y datos ficticios de Don Javier, landing local y portal ampliado del cliente en `3ac7057`.
 - [ ] Crear y validar la demo persistente con autorización.
 - [ ] Probar teléfonos, conexión, lector, impresora y notificaciones push reales.
 - [ ] Resolver el problema de estilos pendiente en la APK de Mayro y verificar sus cambios junto con los de distribución.
@@ -274,7 +277,7 @@ La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas. La etap
 - Para cobranza y reportes de ventas de distribución, UTC es el valor inicial y la zona puede ajustarse por tienda; hay avisos diarios de mejor esfuerzo para la demo, no garantizados en producción. Las reglas IANA de Node y PostgreSQL deben mantenerse actualizadas y compatibles.
 - La configuración o ampliación de Meta no forma parte de esta etapa y no se presume validada.
 - La entrega SSE local no es una bandeja persistente ni garantiza recepción cuando el usuario está desconectado.
-- La base de distribución se subió en `31be971`; la rama remota contiene también `b35a2d5`, los gráficos y CSV en `5e62d07`, los reportes diarios en `35af531`, la etapa de pedidos en `938cc99`, el seguimiento inicial en `110e0de` y la etapa actual en `86a79a4`. Las correcciones de Mayro deben verificarse aparte; no se han aplicado migraciones a bases existentes.
+- La base de distribución se subió en `31be971`; la rama remota contiene también `b35a2d5`, los gráficos y CSV en `5e62d07`, los reportes diarios en `35af531`, la etapa de pedidos en `938cc99`, el seguimiento inicial en `110e0de`, la recepción asistida en `86a79a4` y la etapa actual en `3ac7057`. Las correcciones de Mayro deben verificarse aparte; no se han aplicado migraciones a bases existentes.
 
 ## Historial de actualización
 
@@ -288,3 +291,4 @@ La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas. La etap
 | 2026-11-21 entre 10:52:18 y 10:52:25 UTC-03:00 (reloj local) | Push del commit `110e0de` de recuperación POS, seguimiento inicial, etiquetas y propuesta manual de carga a `feat/don-javier-demo`, confirmado en GitHub. Estimación aproximada: 55 %. No hubo despliegue ni merge. |
 | 2026-11-22 entre 17:51:21 y 17:51:25 UTC-03:00 (reloj local) | Push del commit `86a79a4` a `feat/don-javier-demo`, confirmado en GitHub. Estimación ponderada registrada: aproximadamente 57 %. El intervalo corresponde al inicio y fin observados del comando, no al instante exacto de recepción. No hubo despliegue ni merge. |
 | 2026-11-22 entre 17:52:29 y 17:52:31 UTC-03:00 (reloj local) | Publicación del checklist en `382b055`. El intervalo corresponde al inicio y fin observados del comando, no al instante exacto de recepción. La fecha del commit de esta anotación puede consultarse en el historial de GitHub. |
+| 2026-11-22, verificado a las 19:17:35 UTC-03:00 (reloj local) | Commit `3ac7057` confirmado en la rama remota. Estimación ponderada aproximada: 61 %. No hubo despliegue, merge ni generación de APK. |
