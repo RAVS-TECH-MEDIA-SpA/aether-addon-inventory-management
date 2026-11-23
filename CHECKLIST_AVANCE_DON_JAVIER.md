@@ -1,6 +1,6 @@
 # Checklist de avance: addon de inventario y distribución Don Javier
 
-**Actualizado:** 22 de noviembre de 2026.
+**Actualizado:** 23 de noviembre de 2026.
 
 **Hora local registrada antes de una actualización anterior del checklist:** 2026-11-21 10:52 UTC-03:00. No es la marca de tiempo exacta de envío ni de recepción del servidor.
 
@@ -8,7 +8,9 @@
 
 **Referencia:** [Informe ejecutivo](INFORME_ADDON_GESTION_INVENTARIO_DON_JAVIER.md).
 
-**Estado general:** desarrollo en curso. La rama `feat/don-javier-demo` incluye hasta el commit `43343f5`, con datos ficticios aislados, perfil independiente, portal de cliente y despachos parciales experimentales deshabilitados por defecto. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
+**Estado general:** desarrollo en curso. La rama `feat/don-javier-demo` incluye hasta el commit `ed28b71`, con datos ficticios aislados, perfil independiente, portal de cliente y despachos parciales experimentales deshabilitados por defecto. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
+
+**Punto de control `ed28b71`:** las vistas de existencias y mínimos consultan nuevamente al recibir invalidaciones SSE locales, con respaldo periódico y reconexión. Hay filtros de producto, ubicación y estado, indicador de sala bajo mínimo y sugerencia de la bodega con más stock registrado, limitada al faltante o disponibilidad. La sugerencia no considera distancia ni mínimos de bodega y no mueve productos. Administración puede configurar una prioridad común para pedidos web y app; bodega o administración pueden revisar y modificar el reparto por pedido antes de confirmar. El servidor valida cantidades y stock y crea un envío por origen en una transacción; no se reserva stock al pedir. El reparto comparte la opción experimental de envíos parciales, deshabilitada por defecto y activada solo en pruebas. Pasaron 85 pruebas API dirigidas con 26 migraciones en PostgreSQL temporal y 63 pruebas web dirigidas; compiló `local-don-javier`. No se aplicaron migraciones a una base compartida ni se probaron dispositivos o Wi-Fi reales. La estimación integral no cambia.
 
 **Punto de control `43343f5`:** en la demo, existencias y mínimos se vuelven a consultar aproximadamente cada 30 segundos mientras la pantalla está visible. Se conservan formularios y ventas pendientes, se descartan respuestas obsoletas o de una sesión cambiada y se informa si falla la consulta. Pasaron 32 pruebas web dirigidas. Las consultas son independientes, no reservan stock y pueden quedar desfasadas; POS, reportes y otras vistas no se actualizan automáticamente por este mecanismo. La estimación integral no cambia.
 
@@ -26,7 +28,7 @@
 
 **Punto de control publicado en `65e5ebb`:** cobranza manual por envío parcial, con selección por cliente, una deuda por envío incluso si se anula y validación de tienda y cliente. No se genera deuda desde la cotización. Pasaron 43 pruebas API de pedidos y cobranza, 7 API de demo y 41 pruebas web dirigidas; compiló `local-don-javier`. Se volvió a ejecutar la prueba dirigida con creación concurrente de claves distintas y restricciones de base. Las 25 migraciones se probaron en PostgreSQL temporal, no en una base compartida. También se agregó al POS una balanza virtual manual, total estimado del carrito y terminal de tarjeta visual simulado. Los envíos parciales guardan el intento local para reintentar tras recargar en el mismo navegador y usuario; la reasignación y cambio de custodia intentan avisar a ambos conductores con mensajes genéricos de mejor esfuerzo. Pasaron 30 pruebas web dirigidas de pedidos y POS, una prueba API de avisos locales y compiló `local-don-javier`. No se conectaron dispositivos ni se procesa pago alguno. Este punto de control anticipado no modifica la estimación del 61 %.
 
-**Avance posterior local, sin publicar:** pasaron las 31 pruebas API de pedidos y envíos, incluidas concurrencia, aislamiento, cobranza y avisos, en PostgreSQL temporal con 25 migraciones. Se agregaron avisos genéricos de mejor esfuerzo al asignar y reasignar conductor, tanto en despachos completos como parciales; pasaron dos pruebas dirigidas de asignación, cambios, reintentos y aislamiento y se validaron tipos API. En la demo local los avisos se muestran dentro de la app conectada, no son push con la app cerrada; falta probarlos en teléfonos reales. Jest requirió `--forceExit`. Este avance aún no está publicado.
+**Validación histórica de avisos:** pasaron las 31 pruebas API de pedidos y envíos, incluidas concurrencia, aislamiento, cobranza y avisos, en PostgreSQL temporal con 25 migraciones. Se agregaron avisos genéricos de mejor esfuerzo al asignar y reasignar conductor, tanto en despachos completos como parciales; pasaron dos pruebas dirigidas de asignación, cambios, reintentos y aislamiento y se validaron tipos API. Esta ampliación se publicó posteriormente en `7a64054`. En la demo local los avisos se muestran dentro de la app conectada, no son push con la app cerrada; falta probarlos en teléfonos reales. Jest requirió `--forceExit`.
 
 ## Estimación global
 
@@ -55,6 +57,10 @@ El cálculo ponderado registrado es 61 %, frente a 57,25 % anterior. Tienda y pr
 
 **Cómo interpretar el estancamiento:** cada grado cambia en bloques de 25 puntos por área, por lo que avances internos pueden no alterar la cifra global. Desde el cálculo anterior se agregaron cotizaciones referenciales, envíos parciales experimentales, cobranza por envío, balanza virtual, simulación de tarjeta y recuperación de envíos; todavía no corresponde dar por terminadas esas áreas. Para no esconder avances ni inventar precisión, el porcentaje conserva su método y los hitos y pruebas posteriores se informan por separado. El 61 % incluye preparación y entrega; no predice cuánto tiempo falta para la demo ni representa únicamente código.
 
+**Recuento complementario, antes del nuevo punto de control:** 102 de 159 casillas estaban marcadas (64,2 %). Cuenta todas las casillas por igual, incluso publicaciones y activaciones de producción; no mide trabajo ni reemplaza la estimación ponderada de 61 %. No demuestra que el código esté al 69 % ni permite calcular una fecha de término. Las áreas más alejadas de la entrega incluyen tienda y preparación (0 de 6), web/app y roles (5 de 11), multiempresa y seguridad (3 de 7), y preparación/entrega y activaciones (9 de 25). Estas cifras reflejan las casillas tal como estaban redactadas en esta revisión; pueden cambiar al subdividir o aclarar tareas.
+
+**Separación de alcances:** para la demo local ya hay flujos web y API con datos ficticios; el recorrido en Chrome del commit `43343f5` completó pedido, POS simulado, despacho, entrega y cobranza con los cinco perfiles. No valida automáticamente los cambios posteriores. La APK, equipos y red reales, tienda persistente y aceptación faltan. Para producción, además, siguen pendientes facturación y servicios de GCP, seguridad, respaldo, migraciones y activaciones autorizadas; el resultado de la demo no implica preparación para operar.
+
 **Leyenda:** `[x]` implementado y probado en el alcance indicado, generalmente con datos temporales; `[ ]` pendiente o incompleto. Una casilla marcada no implica despliegue ni aceptación final.
 
 ## 1. Tienda y preparación
@@ -76,9 +82,9 @@ Existe un generador para una base local aislada y vacía, probado con tienda, cu
 - [x] Filtrar el inventario por producto y ubicación, y exportar el resultado a CSV.
 - [x] Mostrar un gráfico local de registros filtrados por ubicación, sin sumar cantidades de productos distintos.
 - [ ] Validar rendimiento y usabilidad con más de 500 productos y las ubicaciones reales.
-- [ ] Completar actualización automática de todas las vistas de inventario; la demo consulta existencias y mínimos periódicamente mientras la pantalla está visible.
+- [ ] Completar actualización automática de todas las vistas de inventario; existencias y mínimos reciben invalidaciones SSE locales y consultas periódicas mientras la pantalla está visible.
 
-Las consultas reflejan los datos al cargar o actualizar; no se ha verificado actualización integral en tiempo real.
+Las consultas de existencias y mínimos se vuelven a ejecutar tras cambios notificados y cada 30 segundos como respaldo; no son una instantánea conjunta ni una garantía de entrega SSE. No se ha verificado actualización integral en todas las vistas.
 
 ## 3. Inventario inicial
 
