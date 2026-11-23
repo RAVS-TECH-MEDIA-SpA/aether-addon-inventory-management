@@ -8,7 +8,7 @@
 
 **Referencia:** [Informe ejecutivo](INFORME_ADDON_GESTION_INVENTARIO_DON_JAVIER.md).
 
-**Estado general:** desarrollo en curso. La rama `feat/don-javier-demo` incluye hasta el commit `65e5ebb`, con datos ficticios aislados, perfil independiente, portal de cliente y despachos parciales experimentales deshabilitados por defecto. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
+**Estado general:** desarrollo en curso. La rama `feat/don-javier-demo` incluye hasta el commit `7a64054`, con datos ficticios aislados, perfil independiente, portal de cliente y despachos parciales experimentales deshabilitados por defecto. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
 
 **Avance publicado:** además de los flujos anteriores, hay un generador protegido de datos ficticios, acceso por cinco perfiles, landing local y cliente con solicitud y consulta de pedidos, consulta de saldos y declaración de recepción. El 22 de noviembre pasaron 30 pruebas web dirigidas, 7 pruebas API de demo y CORS y 48 pruebas API de regresión de pedidos e inventario; se aplicaron 22 migraciones de distribución en bases PostgreSQL temporales, se validaron ambos esquemas Prisma y tipos de API, compiló Angular `local-don-javier` y se validaron manifiestos y recursos Android sin generar APK. No se ejecutaron todas las pruebas del repositorio. El OCR y la custodia siguen deshabilitados y no se han probado en condiciones reales.
 
@@ -123,6 +123,8 @@ La demo local reutiliza el mecanismo SSE existente, solo para clientes conectado
 - [x] Reasignar un conductor antes del traslado, con motivo, auditoría y pérdida de acceso del conductor anterior; migración y concurrencia probadas en bases temporales.
 - [x] Registrar localmente un cambio administrativo de conductor durante el tránsito, con motivo, revisión de asignación, confirmación declarada y acceso revocado al anterior; migración y concurrencia probadas en base temporal.
 - [x] Intentar avisar a ambos conductores tras una transferencia, con mensaje genérico; SSE y navegación simulada probados localmente.
+- [x] Intentar avisar al conductor al asignar y a ambos conductores al reasignar, en despachos completos y parciales; SSE probado con datos temporales.
+- [x] Intentar avisar al cliente vinculado al iniciar tránsito o declarar entrega, en despachos completos y parciales; SSE, aislamiento, reintentos y navegación simulada probados localmente.
 - [x] Registrar una dirección opcional al crear el pedido y mostrar la vigente al conductor asignado; conservar la original y permitir correcciones auditadas hasta declarar la entrega. Avisar si falta y rechazar inicio o entrega con revisión de dirección obsoleta.
 - [x] Intentar avisar al conductor asignado al corregir una dirección, sin incluir datos privados en el aviso; probado con SSE local y navegación simulada de aviso local/push hacia despachos.
 - [ ] Completar seguimiento del despacho y experiencia del conductor: entrega efectiva de avisos, verificación física de custodia, rutas, confirmación del cliente y pruebas reales.
@@ -132,6 +134,8 @@ La demo local reutiliza el mecanismo SSE existente, solo para clientes conectado
 - [x] Generar comprobante ficticio específico para despacho a clientes.
 
 Ninguno de los comprobantes es una guía de despacho legal. Crear pedidos no reserva stock; el despacho no acredita entrega ni genera automáticamente una deuda. La entrega declarada por el conductor no prueba recepción ni pago. La corrección de dirección durante tránsito requiere comunicar el cambio directamente al conductor, pues el aviso es de mejor esfuerzo, sin confirmación ni garantía de entrega. La comparación de revisión en correcciones e inicio/entrega detecta incluso cambios que regresan al valor anterior; clientes antiguos deben actualizarse para pedidos corregidos. El aviso push no se ha probado en un dispositivo real. La transferencia en tránsito solo puede declararla administración, tras coordinar custodia fuera de la aplicación. No constituye prueba física; los avisos genéricos a ambos conductores son de mejor esfuerzo y no reemplazan la coordinación directa. Clientes antiguos deben actualizarse para registrar la entrega tras una transferencia. Pasaron 25 pruebas API de pedidos y seguimiento en PostgreSQL temporal y 5 web dirigidas de avisos; no se aplicó la migración en entornos compartidos ni se generó APK.
+
+La ampliación de avisos se publicó en `7a64054`: pasó 32 pruebas API de pedidos y envíos en PostgreSQL temporal y 6 pruebas web de navegación SSE y push simulado; compiló `local-don-javier`. Los avisos al cliente no contienen identificadores ni dirección, exigen actualizar el portal manualmente y no acreditan recepción ni pago. Se probó que una falla de notificación no revierte el evento. No hay bandeja persistente ni validación de push en teléfonos. Esta publicación anticipada no cambia la estimación del 61 %.
 
 La ampliación de la heurística de carga pasó 6 pruebas web de geometría, paradas, restricciones y componente. No garantiza una disposición segura ni reemplaza la revisión física y la sujeción.
 
