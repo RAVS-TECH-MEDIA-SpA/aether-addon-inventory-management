@@ -8,7 +8,9 @@
 
 **Referencia:** [Informe ejecutivo](INFORME_ADDON_GESTION_INVENTARIO_DON_JAVIER.md).
 
-**Estado general:** desarrollo en curso. La rama `feat/don-javier-demo` incluye hasta el commit `c8ac936`, con datos ficticios aislados, perfil independiente, portal de cliente y despachos parciales experimentales deshabilitados por defecto. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
+**Estado general:** desarrollo en curso. La rama `feat/don-javier-demo` incluye hasta el commit `43343f5`, con datos ficticios aislados, perfil independiente, portal de cliente y despachos parciales experimentales deshabilitados por defecto. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
+
+**Punto de control `43343f5`:** en la demo, existencias y mínimos se vuelven a consultar aproximadamente cada 30 segundos mientras la pantalla está visible. Se conservan formularios y ventas pendientes, se descartan respuestas obsoletas o de una sesión cambiada y se informa si falla la consulta. Pasaron 32 pruebas web dirigidas. Las consultas son independientes, no reservan stock y pueden quedar desfasadas; POS, reportes y otras vistas no se actualizan automáticamente por este mecanismo. La estimación integral no cambia.
 
 **Punto de control `c8ac936`:** la entrada local puede servir también la web compilada y configurar la API en el mismo origen; Chrome abrió la pantalla de acceso con cinco perfiles sin iniciar sesión. Al abrir un aviso de entrega se actualiza el portal si no hay una consulta o recepción en curso, que se conserva en caso contrario; los despachos completos muestran ahora el tránsito. Pasaron 19 pruebas dirigidas de configuración y entrega web, 25 web de portal y avisos, y 4 API de portal con 25 migraciones en PostgreSQL temporal. No se ha probado aún el flujo integral en navegador con esta entrada, ni teléfonos o Wi-Fi. HTTP local no cifra datos y puede impedir el acceso a la cámara; no es una configuración de producción. La estimación integral no cambia.
 
@@ -74,7 +76,7 @@ Existe un generador para una base local aislada y vacía, probado con tienda, cu
 - [x] Filtrar el inventario por producto y ubicación, y exportar el resultado a CSV.
 - [x] Mostrar un gráfico local de registros filtrados por ubicación, sin sumar cantidades de productos distintos.
 - [ ] Validar rendimiento y usabilidad con más de 500 productos y las ubicaciones reales.
-- [ ] Completar actualización automática de todas las vistas de inventario.
+- [ ] Completar actualización automática de todas las vistas de inventario; la demo consulta existencias y mínimos periódicamente mientras la pantalla está visible.
 
 Las consultas reflejan los datos al cargar o actualizar; no se ha verificado actualización integral en tiempo real.
 
