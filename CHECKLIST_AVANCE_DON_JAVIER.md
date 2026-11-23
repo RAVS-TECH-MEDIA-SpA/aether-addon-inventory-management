@@ -8,7 +8,7 @@
 
 **Referencia:** [Informe ejecutivo](INFORME_ADDON_GESTION_INVENTARIO_DON_JAVIER.md).
 
-**Estado general:** desarrollo en curso. La rama `feat/don-javier-demo` incluye hasta el commit `1fae154`, con datos ficticios aislados, perfil independiente, portal de cliente y despachos parciales experimentales deshabilitados por defecto. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
+**Estado general:** desarrollo en curso. La rama `feat/don-javier-demo` incluye hasta el commit `65e5ebb`, con datos ficticios aislados, perfil independiente, portal de cliente y despachos parciales experimentales deshabilitados por defecto. Subir la rama no equivale a desplegar: no se ha desplegado el addon, creado una demo persistente ni hecho merge a `main`. No equivale a una solución lista para producción.
 
 **Avance publicado:** además de los flujos anteriores, hay un generador protegido de datos ficticios, acceso por cinco perfiles, landing local y cliente con solicitud y consulta de pedidos, consulta de saldos y declaración de recepción. El 22 de noviembre pasaron 30 pruebas web dirigidas, 7 pruebas API de demo y CORS y 48 pruebas API de regresión de pedidos e inventario; se aplicaron 22 migraciones de distribución en bases PostgreSQL temporales, se validaron ambos esquemas Prisma y tipos de API, compiló Angular `local-don-javier` y se validaron manifiestos y recursos Android sin generar APK. No se ejecutaron todas las pruebas del repositorio. El OCR y la custodia siguen deshabilitados y no se han probado en condiciones reales.
 
@@ -16,7 +16,9 @@
 
 **Decisión para despachos parciales:** permitir anular únicamente las cantidades pendientes; los envíos ya realizados conservan su historial y no devuelven stock automáticamente. Seguimiento y recepción deben distinguir cada envío. Aún no está disponible para usuarios.
 
-**Despachos parciales experimentales en la rama:** se agregaron tablas, servicios, rutas e interfaces para crear envíos parciales, descargar un comprobante ficticio por envío, anular solo el saldo, asignar y reasignar conductor, declarar cambio de custodia en tránsito, declarar entrega y declarar recepción por envío. La creación está deshabilitada por defecto y el indicador experimental se activó únicamente en pruebas; la ruta anterior bloquea operaciones incompatibles si existen envíos parciales. Con 24 migraciones en PostgreSQL temporal pasaron 29 pruebas de pedidos y 15 de reportes; la carrera entre cambio de custodia y entrega se serializa. Pasaron también 7 pruebas de demo que incluyen un recorrido por API entre cliente, bodega, administración y conductor, 68 pruebas web dirigidas y compiló `local-don-javier`; se validaron tipos y ambos esquemas Prisma. No se envían avisos de cambio de conductor por envío y la custodia debe coordinarse físicamente. Faltan vinculación de cobranza a envíos, pruebas físicas y validación integral antes de habilitar el flujo. No se ha aplicado la migración en una base compartida.
+**Despachos parciales experimentales en la rama:** se agregaron tablas, servicios, rutas e interfaces para crear envíos parciales, descargar un comprobante ficticio por envío, anular solo el saldo, asignar y reasignar conductor, declarar cambio de custodia en tránsito, declarar entrega y declarar recepción por envío. La creación está deshabilitada por defecto y el indicador experimental se activó únicamente en pruebas; la ruta anterior bloquea operaciones incompatibles si existen envíos parciales. Con 24 migraciones en PostgreSQL temporal pasaron 29 pruebas de pedidos y 15 de reportes; la carrera entre cambio de custodia y entrega se serializa. Pasaron también 7 pruebas de demo que incluyen un recorrido por API entre cliente, bodega, administración y conductor, 68 pruebas web dirigidas y compiló `local-don-javier`; se validaron tipos y ambos esquemas Prisma. En `1fae154` no había avisos de cambio de conductor por envío; se agregaron posteriormente como se indica abajo. La custodia debe coordinarse físicamente. Faltan pruebas físicas y validación integral antes de habilitar el flujo. No se ha aplicado la migración en una base compartida.
+
+**Punto de control publicado en `65e5ebb`:** cobranza manual por envío parcial, con selección por cliente, una deuda por envío incluso si se anula y validación de tienda y cliente. No se genera deuda desde la cotización. Pasaron 43 pruebas API de pedidos y cobranza, 7 API de demo y 41 pruebas web dirigidas; compiló `local-don-javier`. Se volvió a ejecutar la prueba dirigida con creación concurrente de claves distintas y restricciones de base. Las 25 migraciones se probaron en PostgreSQL temporal, no en una base compartida. También se agregó al POS una balanza virtual manual, total estimado del carrito y terminal de tarjeta visual simulado. Los envíos parciales guardan el intento local para reintentar tras recargar en el mismo navegador y usuario; la reasignación y cambio de custodia intentan avisar a ambos conductores con mensajes genéricos de mejor esfuerzo. Pasaron 30 pruebas web dirigidas de pedidos y POS, una prueba API de avisos locales y compiló `local-don-javier`. No se conectaron dispositivos ni se procesa pago alguno. Este punto de control anticipado no modifica la estimación del 61 %.
 
 ## Estimación global
 
@@ -137,11 +139,15 @@ La ampliación de la heurística de carga pasó 6 pruebas web de geometría, par
 - [x] Validar precio, stock y permisos; consultar historial y descargar comprobante ficticio.
 - [x] Reintentar una misma venta con identificador estable mientras se conserva en pantalla.
 - [x] Conservar el identificador localmente y resolver el resultado incierto tras recarga o cierre en el mismo navegador y usuario.
+- [x] Mostrar el total estimado del carrito con cálculo decimal por línea; publicado en la rama.
+- [x] Incorporar balanza virtual con peso ingresado manualmente; publicada en la rama.
+- Balanza Bluetooth física: fuera del alcance actual; se evaluará si el cliente la solicita.
+- [x] Incorporar una experiencia visual de tarjeta **simulada**, claramente rotulada como demo y sin datos reales de tarjetas; publicada en la rama.
 - [ ] Registrar medios de pago, descuentos, devoluciones e impuestos.
 - [ ] Implementar cierre de caja.
 - [ ] Probar lector de códigos e impresora físicos.
 
-Los precios existentes usan `Float`; el POS rechaza precios con más de dos decimales. Este flujo no configura moneda ni acredita pagos. Si se borra el almacenamiento del navegador o se cambia de dispositivo, no se recupera automáticamente el intento.
+Los precios existentes usan `Float`; el POS rechaza precios con más de dos decimales. Este flujo no configura moneda ni acredita pagos. El peso manual solo debe aplicarse a productos cuyo precio y stock se expresen por kg; no se verifica físicamente. El terminal simulado no registra pagos ni se conecta a un proveedor; la venta y descuento de stock ya se registraron antes de mostrarlo. Si se borra el almacenamiento del navegador o se cambia de dispositivo, no se recupera automáticamente el intento.
 
 ## 8. Productos padre/hijo
 
@@ -167,6 +173,7 @@ Las equivalencias actuales usan la regla configurada al consultar, no necesariam
 - [ ] Configurar un disparador externo seguro para producción y validar la entrega real de avisos.
 - [x] Anular deudas sin pagos activos y pagos con motivo y auditoría, conservando el historial y recalculando saldos.
 - [x] Vincular localmente una deuda manual ficticia a un pedido despachado del mismo cliente, evitando duplicar el vínculo y conservando el historial.
+- [x] Vincular una deuda manual ficticia a un envío parcial del mismo cliente; publicado en la rama.
 - [ ] Completar precios, vínculo con ventas, reemplazo de vínculos anulados y conciliación de créditos.
 - [x] Recuperar localmente intentos inciertos de deudas, pagos y anulaciones tras recarga en el mismo navegador y usuario, con barrera para solicitudes tardías.
 
