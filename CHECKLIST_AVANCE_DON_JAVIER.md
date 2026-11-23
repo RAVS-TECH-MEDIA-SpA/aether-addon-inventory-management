@@ -20,6 +20,8 @@
 
 **Punto de control publicado en `65e5ebb`:** cobranza manual por envío parcial, con selección por cliente, una deuda por envío incluso si se anula y validación de tienda y cliente. No se genera deuda desde la cotización. Pasaron 43 pruebas API de pedidos y cobranza, 7 API de demo y 41 pruebas web dirigidas; compiló `local-don-javier`. Se volvió a ejecutar la prueba dirigida con creación concurrente de claves distintas y restricciones de base. Las 25 migraciones se probaron en PostgreSQL temporal, no en una base compartida. También se agregó al POS una balanza virtual manual, total estimado del carrito y terminal de tarjeta visual simulado. Los envíos parciales guardan el intento local para reintentar tras recargar en el mismo navegador y usuario; la reasignación y cambio de custodia intentan avisar a ambos conductores con mensajes genéricos de mejor esfuerzo. Pasaron 30 pruebas web dirigidas de pedidos y POS, una prueba API de avisos locales y compiló `local-don-javier`. No se conectaron dispositivos ni se procesa pago alguno. Este punto de control anticipado no modifica la estimación del 61 %.
 
+**Avance posterior local, sin publicar:** pasaron las 31 pruebas API de pedidos y envíos, incluidas concurrencia, aislamiento, cobranza y avisos, en PostgreSQL temporal con 25 migraciones. Se agregaron avisos genéricos de mejor esfuerzo al asignar y reasignar conductor, tanto en despachos completos como parciales; pasaron dos pruebas dirigidas de asignación, cambios, reintentos y aislamiento y se validaron tipos API. En la demo local los avisos se muestran dentro de la app conectada, no son push con la app cerrada; falta probarlos en teléfonos reales. Jest requirió `--forceExit`. Este avance aún no está publicado.
+
 ## Estimación global
 
 **Avance estimado: alrededor de 61 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
@@ -44,6 +46,8 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 14. Preparación y entrega | 4 % | 0 % |
 
 El cálculo ponderado registrado es 61 %, frente a 57,25 % anterior. Tienda y preparación pasa de 0 % a 25 % por el generador y las pruebas con datos temporales, no por una tienda persistente. Web, app y roles pasa de 25 % a 50 % por el perfil independiente y las funciones iniciales del cliente; la APK y la validación física siguen pendientes. Los pesos y grados son criterios manuales sujetos a revisión.
+
+**Cómo interpretar el estancamiento:** cada grado cambia en bloques de 25 puntos por área, por lo que avances internos pueden no alterar la cifra global. Desde el cálculo anterior se agregaron cotizaciones referenciales, envíos parciales experimentales, cobranza por envío, balanza virtual, simulación de tarjeta y recuperación de envíos; todavía no corresponde dar por terminadas esas áreas. Para no esconder avances ni inventar precisión, el porcentaje conserva su método y los hitos y pruebas posteriores se informan por separado. El 61 % incluye preparación y entrega; no predice cuánto tiempo falta para la demo ni representa únicamente código.
 
 **Leyenda:** `[x]` implementado y probado en el alcance indicado, generalmente con datos temporales; `[ ]` pendiente o incompleto. Una casilla marcada no implica despliegue ni aceptación final.
 
@@ -281,6 +285,20 @@ Los addons deben ser independientes entre sí. Las pruebas aisladas todavía no 
 - [ ] Revisar los cambios pendientes y completar la validación integral antes de hacer merge a `main`; no se hará merge hasta completar la tienda Don Javier.
 
 La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas. La etapa de pedidos, anulaciones y reportes pasó 34 pruebas API y 59 web dirigidas. La etapa de seguimiento inicial pasó 22 pruebas API de inventario/POS, 9 de pedidos y seguimiento, 34 web de POS/panel y 39 web de seguimiento, etiquetas, carga y panel; se repitió además una prueba del planificador tras su último ajuste. Posteriormente se validaron las 20 migraciones en PostgreSQL temporal aislado. Angular compiló para producción y `local-mobile`; la API pasó verificación de tipos. Persisten advertencias de CSS Mayro, `qrcode` y `ts-jest`; Jest requirió `--forceExit`. No se ha generado ni probado una APK con estos cambios.
+
+### Activaciones y verificaciones antes de producción
+
+Pendientes para cuando exista autorización y se restablezca el acceso y la facturación de GCP. Saldar la deuda no implica que los servicios se reactiven automáticamente ni que el sistema quede listo para operar.
+
+- [ ] Verificar el estado real de facturación, proyecto, servicios, cuotas y presupuesto en GCP; revisar costos y alertas antes de habilitar consumo.
+- [ ] Definir entorno de producción, dominio, TLS, credenciales y permisos mínimos; preparar copias, restauración, monitoreo y un procedimiento de despliegue y reversión. No usar la base ficticia local como producción.
+- [ ] Aprobar y aplicar migraciones en el entorno autorizado, validar aislamiento multiempresa y preparar tienda, usuarios y conteos reales sin afectar Mayro.
+- [ ] OCR de guías: revisar privacidad, región, modelo, costos, cuotas e IAM de Vertex AI; configurar las variables requeridas y probar con documentos reales autorizados antes de activar `DISTRIBUTION_OCR_ENABLED`. El OCR actual solo se ha probado con respuestas simuladas.
+- [ ] Notificaciones push: configurar y autorizar Firebase/FCM, credenciales y registros de dispositivos; probar permisos y entrega en teléfonos reales. Los avisos SSE de la demo funcionan solo con la app conectada y no son un reemplazo de push ni una bandeja persistente.
+- [ ] Avisos programados de cobranza: diseñar y configurar un disparador externo seguro para el entorno de despliegue y validar ejecución y entrega; el temporizador interno puede suspenderse y no garantiza avisos.
+- [ ] Custodia y eliminación de fotografías: aprobar cifrado, acceso, retención, respaldos, borrado y controles de archivos antes de habilitar sus flags; las imágenes se almacenan en PostgreSQL, sin cifrado adicional de aplicación.
+- [ ] Mantener envíos parciales deshabilitados hasta validar integralmente sus flujos y dispositivos; habilitar solo con autorización. No asumir que una bandera por sí sola los hace aptos para producción.
+- [ ] Confirmar requisitos de medios de pago y documentos tributarios con el cliente y proveedor antes de implementar o activar cualquier integración real. El terminal actual es exclusivamente simulado y los comprobantes no tienen validez tributaria.
 
 ## Decisiones y límites vigentes
 
