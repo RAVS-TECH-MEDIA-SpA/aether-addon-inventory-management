@@ -219,7 +219,7 @@ Los precios existentes usan `Float`; el POS rechaza precios con más de dos deci
 - [x] Mostrar equivalencias aproximadas de ventas de hijos, en pantalla y CSV.
 - [x] Comparar gráficamente en el entorno local alternativas padre para un hijo seleccionado.
 - [x] Registrar equivalencias históricas según la regla vigente en cada venta.
-- [ ] Recomendar compras de sacos a partir de ventas históricas.
+- [x] Recomendar compras orientativas de sacos padre a partir de ventas históricas de hijos, usando snapshots de equivalencia, stock/mínimos del padre, paginación, explicación y CSV; no crea compras ni reserva stock.
 
 Las equivalencias actuales usan la regla configurada al consultar, no necesariamente la vigente cuando se vendió; los posibles padres son alternativas y no deben sumarse. No incluyen ventas del padre.
 
