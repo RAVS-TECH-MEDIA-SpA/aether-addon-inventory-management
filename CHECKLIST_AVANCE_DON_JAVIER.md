@@ -32,6 +32,8 @@
 
 **Punto de control `3d26147`:** se agrego la bandeja persistente de avisos por usuario o cliente y tienda, con consulta paginada, filtro de no leidas y marcado de lectura; los emisores existentes de SSE y FCM la reutilizan. Se agrego un endpoint interno `POST /api/internal/distribution/overdue-notices` protegido por `DISTRIBUTION_OVERDUE_JOB_TOKEN` para que un scheduler externo ejecute los avisos diarios sin depender del temporizador del proceso. Tambien se agrego `GET /api/distribution/restocking/recommendations`, de solo lectura y limitado a administracion y bodega, con promedio diario de ventas POS, dias de cobertura, minimo configurado, stock actual y compra sugerida; no crea ordenes ni reserva stock. Pasaron el build del gateway, 2 pruebas de seguridad del disparador y 2 pruebas unitarias de la formula; la integracion PostgreSQL quedo omitida por no estar configurada `DISTRIBUTION_TEST_DATABASE_URL`. Los cambios de codigo se publicaron en `RAVS-TECH-MEDIA-SpA/aether-retail-monorepo@3d26147`; no se aplicaron migraciones a una base compartida ni se configuro un scheduler productivo.
 
+**Punto de control `1f80697`:** las ventas POS ahora guardan un snapshot de las reglas padre/hijo vigentes al momento de cada l?nea, incluyendo factor, productos y titulo historico. Los reportes y CSV usan ese snapshot, separan factores historicos distintos y mantienen un fallback controlado para ventas antiguas sin snapshot. Se agrego una migracion y una prueba focalizada de cambio de regla sin alterar ventas pasadas; el build de API y Angular Don Javier pasaron. Las pruebas API PostgreSQL quedaron omitidas por falta de `DISTRIBUTION_TEST_DATABASE_URL`; la migracion no se aplico a una base compartida.
+
 ## Estimación global
 
 **Avance estimado: alrededor de 61 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
@@ -183,7 +185,7 @@ Los precios existentes usan `Float`; el POS rechaza precios con más de dos deci
 - [x] Mostrar padres disponibles cuando falta un hijo con mínimo configurado.
 - [x] Mostrar equivalencias aproximadas de ventas de hijos, en pantalla y CSV.
 - [x] Comparar gráficamente en el entorno local alternativas padre para un hijo seleccionado.
-- [ ] Registrar equivalencias históricas según la regla vigente en cada venta.
+- [x] Registrar equivalencias históricas según la regla vigente en cada venta.
 - [ ] Recomendar compras de sacos a partir de ventas históricas.
 
 Las equivalencias actuales usan la regla configurada al consultar, no necesariamente la vigente cuando se vendió; los posibles padres son alternativas y no deben sumarse. No incluyen ventas del padre.
@@ -346,3 +348,4 @@ Pendientes para cuando exista autorización y se restablezca el acceso y la fact
 | 2026-11-22 entre 17:52:29 y 17:52:31 UTC-03:00 (reloj local) | Publicación del checklist en `382b055`. El intervalo corresponde al inicio y fin observados del comando, no al instante exacto de recepción. La fecha del commit de esta anotación puede consultarse en el historial de GitHub. |
 | 2026-11-22, verificado a las 19:17:35 UTC-03:00 (reloj local) | Commit `3ac7057` confirmado en la rama remota. Estimación ponderada aproximada: 61 %. No hubo despliegue, merge ni generación de APK. |
 | 2026-11-27 16:32 UTC-03:00 | Publicados en el monorepo los commits `558978a` y `3d26147`: bandeja persistente de notificaciones, disparador seguro de cobranza y recomendaciones orientativas de reposicion. El porcentaje ponderado se mantiene en aproximadamente 61 % porque no se han validado dispositivos, entorno autorizado ni produccion. |
+| 2026-11-27 16:40 UTC-03:00 | Publicado en el monorepo el commit `1f80697`: equivalencias padre/hijo historicas por venta, con migracion, reportes, CSV y prueba de cambio de regla. El porcentaje ponderado se mantiene en aproximadamente 61 %; no se han validado dispositivos, entorno autorizado ni produccion. |
