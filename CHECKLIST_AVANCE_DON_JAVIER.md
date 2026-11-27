@@ -52,9 +52,11 @@
 
 **Punto de control `67e2c0a`:** se validaron las vistas de inventario y mínimos con 501 productos sintéticos, junto con la actualización automática y el descarte de respuestas obsoletas en la interfaz. Pasaron 205 pruebas UI; la integración PostgreSQL quedó omitida explícitamente por falta de `DISTRIBUTION_TEST_DATABASE_URL` y debe ejecutarse con una base dedicada `aether_distribution_test_*`. El avance ponderado sube aproximadamente a 67 %; no se crearon tiendas persistentes ni se modificó stock.
 
+**Punto de control `4d403f8`:** se agregó una suite de regresión de seguridad para aislamiento tenant/addon, roles mínimos, acceso cruzado, idempotencia/auditoría y límites de paginación/fechas; además se convirtió el descuento POS de stock en consulta set-based. El documento de auditoría enumera exclusiones: pentest, GCP, producción, notificaciones físicas y validación con datos reales. El build API pasó y la integración PostgreSQL quedó omitida sin `DISTRIBUTION_TEST_DATABASE_URL`. El avance ponderado sube aproximadamente a 68,25 %.
+
 ## Estimación global
 
-**Avance estimado: alrededor de 67 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
+**Avance estimado: alrededor de 68,25 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
 
 Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y un grado aproximado de 0 %, 25 %, 50 %, 75 % o 100 %. Se multiplican peso por grado y se suman los resultados. Un área parcialmente funcional no se considera terminada.
 
@@ -72,12 +74,12 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 10. Documentos ficticios | 3 % | 75 % |
 | 11. Reportes y análisis | 8 % | 75 % |
 | 12. Web, app y roles | 10 % | 50 % |
-| 13. Multiempresa, planes y seguridad | 5 % | 50 % |
+| 13. Multiempresa, planes y seguridad | 5 % | 75 % |
 | 14. Preparación y entrega | 4 % | 0 % |
 
-El cálculo ponderado registrado es 67 %, frente a 64,5 % anterior. Inventario centralizado pasa de 75 % a 100 % por la validación con 501 productos sintéticos, la actualización automática de vistas y el descarte de respuestas obsoletas; la integración PostgreSQL con una base dedicada sigue pendiente. Los pesos y grados son criterios manuales sujetos a revisión.
+El cálculo ponderado registrado es 68,25 %, frente a 67 % anterior. Multiempresa, planes y seguridad pasa de 50 % a 75 % por la revisión automatizada de aislamiento tenant/addon, roles, auditoría, idempotencia, límites y consultas set-based; pentest, producción, GCP y notificaciones físicas siguen pendientes. Los pesos y grados son criterios manuales sujetos a revisión.
 
-**Cómo interpretar el estancamiento:** cada grado cambia en bloques de 25 puntos por área, por lo que avances internos pueden no alterar la cifra global. Desde el cálculo anterior se agregaron cotizaciones referenciales, envíos parciales experimentales, cobranza por envío, balanza virtual, simulación de tarjeta y recuperación de envíos; todavía no corresponde dar por terminadas esas áreas. Para no esconder avances ni inventar precisión, el porcentaje conserva su método y los hitos y pruebas posteriores se informan por separado. El 61 % incluye preparación y entrega; no predice cuánto tiempo falta para la demo ni representa únicamente código.
+**Cómo interpretar el estancamiento:** cada grado cambia en bloques de 25 puntos por área, por lo que avances internos pueden no alterar la cifra global. Desde el cálculo anterior se agregaron cotizaciones referenciales, envíos parciales experimentales, cobranza por envío, balanza virtual, simulación de tarjeta y recuperación de envíos; todavía no corresponde dar por terminadas esas áreas. Para no esconder avances ni inventar precisión, el porcentaje conserva su método y los hitos y pruebas posteriores se informan por separado. El 68,25 % incluye preparación y entrega; no predice cuánto tiempo falta para la demo ni representa únicamente código.
 
 **Recuento complementario, antes del nuevo punto de control:** 102 de 159 casillas estaban marcadas (64,2 %). Cuenta todas las casillas por igual, incluso publicaciones y activaciones de producción; no mide trabajo ni reemplaza la estimación ponderada de 61 %. No demuestra que el código esté al 69 % ni permite calcular una fecha de término. Las áreas más alejadas de la entrega incluyen tienda y preparación (0 de 6), web/app y roles (5 de 11), multiempresa y seguridad (3 de 7), y preparación/entrega y activaciones (9 de 25). Estas cifras reflejan las casillas tal como estaban redactadas en esta revisión; pueden cambiar al subdividir o aclarar tareas.
 
@@ -308,7 +310,8 @@ El pedido no reserva stock ni fija precios: los valores del catálogo son refere
 - [x] Ejecutar pruebas sintéticas de aislamiento entre tiendas y coexistencia con Mayro.
 - [ ] Validar la creación real de tienda, suscripción y activación individual del addon.
 - [ ] Probar integralmente Meraki, Mayro, Don Javier y múltiples tiendas en un entorno autorizado.
-- [ ] Revisar seguridad, auditoría y rendimiento de los flujos pendientes.
+- [x] Revisar automáticamente seguridad, aislamiento, auditoría, idempotencia, paginación y consultas set-based de los flujos críticos implementados.
+- [ ] Completar pentest, rendimiento con datos reales, GCP, producción y validación de notificaciones/dispositivos.
 - [ ] Validar los mecanismos reales de notificación y aislamiento en producción.
 
 Los addons deben ser independientes entre sí. Las pruebas aisladas todavía no sustituyen una validación integral de todos los addons y tiendas.
@@ -378,6 +381,7 @@ Pendientes para cuando exista autorización y se restablezca el acceso y la fact
 | 2026-11-27 | Publicado en el monorepo el commit `c8cdba3`: recomendación orientativa de compras de sacos padre desde ventas históricas de hijos. El avance ponderado pasa aproximadamente a 64,5 %; no crea compras ni reserva stock.
 | 2026-11-27 | Publicado en el monorepo el commit `f0f2061`: descuentos y devoluciones demo auditables e idempotentes. El avance ponderado permanece aproximadamente en 64,5 %; impuestos legales, proveedores reales y hardware siguen pendientes.
 | 2026-11-27 | Publicado en el monorepo el commit `67e2c0a`: validación de inventario con 501 productos y actualización automática de vistas. El avance ponderado pasa aproximadamente a 67 %; la integración PostgreSQL dedicada sigue pendiente.
+| 2026-11-27 | Publicado en el monorepo el commit `4d403f8`: revisión automatizada de seguridad, aislamiento, auditoría y consultas set-based. El avance ponderado pasa aproximadamente a 68,25 %; pentest y producción siguen pendientes.
 | 2026-11-27 16:40 UTC-03:00 | Publicado en el monorepo el commit `1f80697`: equivalencias padre/hijo historicas por venta, con migracion, reportes, CSV y prueba de cambio de regla. El porcentaje ponderado se mantiene en aproximadamente 61 %; no se han validado dispositivos, entorno autorizado ni produccion. |
 | 2026-11-27 17:13 UTC-03:00 | Publicado en el monorepo el commit `6f1e145`: bandeja persistente visible para personal y clientes, con paginacion, filtro de no leidas y marcado de lectura. El porcentaje ponderado se mantiene en aproximadamente 61 %; push real y dispositivos siguen pendientes. |
 | 2026-11-27 17:21 UTC-03:00 | Publicado en el monorepo el commit `1646e42`: panel operativo de recomendaciones de reposicion con rango, cobertura, paginacion, formula, limitaciones y CSV. El porcentaje ponderado se mantiene en aproximadamente 61 %; ordenes de compra, tendencias avanzadas, dispositivos y produccion siguen pendientes. |
