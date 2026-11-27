@@ -58,6 +58,8 @@
 
 **Punto de control `2381c6a`:** se completó la experiencia web de despacho/conductor sobre la vista existente, con carga automática de asignaciones autorizadas, estados de carga/vacío/error y respeto de tenant, rol, asignación, QR e idempotencia. Pasaron 47 pruebas UI y los builds de Angular/API; 33 pruebas API PostgreSQL quedaron omitidas sin `DISTRIBUTION_TEST_DATABASE_URL`. El avance ponderado permanece aproximadamente en 70,75 % porque avisos reales, GPS, custodia física, rutas, dispositivos y APK siguen pendientes.
 
+**Punto de control `ee145f8`:** se agregó una máquina de estados compartida para despachos/traslados (`asignado → tránsito → entrega → recepción`), con transiciones permitidas, auditoría, idempotencia, tenant/rol/actor y protección contra duplicados; se integró con las rutas web existentes. Pasaron build API, build Angular, pruebas API focalizadas y 14 pruebas UI; la integración PostgreSQL quedó omitida sin `DISTRIBUTION_TEST_DATABASE_URL`. El avance ponderado permanece aproximadamente en 70,75 % porque seguimiento físico, avisos reales, GPS, custodia y dispositivos siguen pendientes.
+
 ## Estimación global
 
 **Avance estimado: alrededor de 70,75 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
@@ -156,7 +158,7 @@ La demo local reutiliza el mecanismo SSE existente, solo para clientes conectado
 
 - [x] Registrar traslados internos atómicos entre ubicaciones, con responsable, fecha, producto, cantidad y referencia.
 - [x] Descargar un comprobante ficticio del movimiento.
-- [ ] Gestionar órdenes y estados de traslado, incluido tránsito.
+- [x] Gestionar órdenes y estados de traslado, incluido tránsito, con máquina de estados explícita, transiciones permitidas, auditoría e idempotencia.
 - [x] Registrar pedidos B2B manuales y despachar el pedido completo desde una ubicación, con descuento transaccional y anulación auditada.
 - [x] Permitir solicitudes de pedidos por clientes autenticados y declaración de recepción tras la entrega declarada, probadas con datos temporales y aislamiento por tienda y cliente.
 - [ ] Completar pedidos B2B con acceso de clientes, precios y despachos parciales.
@@ -390,6 +392,7 @@ Pendientes para cuando exista autorización y se restablezca el acceso y la fact
 | 2026-11-27 | Publicado en el monorepo el commit `4d403f8`: revisión automatizada de seguridad, aislamiento, auditoría y consultas set-based. El avance ponderado pasa aproximadamente a 68,25 %; pentest y producción siguen pendientes.
 | 2026-11-27 | Publicado en el monorepo el commit `58dd0c0`: experiencias web contextualizadas para administración, vendedor y bodega. El avance ponderado alcanza aproximadamente 70,75 % y se registra el hito 70 %; conductor, APK, dispositivos y producción siguen pendientes.
 | 2026-11-27 | Publicado en el monorepo el commit `2381c6a`: experiencia web de despacho/conductor con estados y asignaciones autorizadas. El avance ponderado permanece aproximadamente en 70,75 %; validación física, dispositivos y APK siguen pendientes.
+| 2026-11-27 | Publicado en el monorepo el commit `ee145f8`: máquina de estados de órdenes y traslados con tránsito, auditoría e idempotencia. El avance ponderado permanece aproximadamente en 70,75 %; validación física y producción siguen pendientes.
 | 2026-11-27 16:40 UTC-03:00 | Publicado en el monorepo el commit `1f80697`: equivalencias padre/hijo historicas por venta, con migracion, reportes, CSV y prueba de cambio de regla. El porcentaje ponderado se mantiene en aproximadamente 61 %; no se han validado dispositivos, entorno autorizado ni produccion. |
 | 2026-11-27 17:13 UTC-03:00 | Publicado en el monorepo el commit `6f1e145`: bandeja persistente visible para personal y clientes, con paginacion, filtro de no leidas y marcado de lectura. El porcentaje ponderado se mantiene en aproximadamente 61 %; push real y dispositivos siguen pendientes. |
 | 2026-11-27 17:21 UTC-03:00 | Publicado en el monorepo el commit `1646e42`: panel operativo de recomendaciones de reposicion con rango, cobertura, paginacion, formula, limitaciones y CSV. El porcentaje ponderado se mantiene en aproximadamente 61 %; ordenes de compra, tendencias avanzadas, dispositivos y produccion siguen pendientes. |
