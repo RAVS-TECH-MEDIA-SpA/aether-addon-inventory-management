@@ -34,6 +34,8 @@
 
 **Punto de control `1f80697`:** las ventas POS ahora guardan un snapshot de las reglas padre/hijo vigentes al momento de cada l?nea, incluyendo factor, productos y titulo historico. Los reportes y CSV usan ese snapshot, separan factores historicos distintos y mantienen un fallback controlado para ventas antiguas sin snapshot. Se agrego una migracion y una prueba focalizada de cambio de regla sin alterar ventas pasadas; el build de API y Angular Don Javier pasaron. Las pruebas API PostgreSQL quedaron omitidas por falta de `DISTRIBUTION_TEST_DATABASE_URL`; la migracion no se aplico a una base compartida.
 
+**Punto de control `6f1e145`:** se integr? una bandeja visual reutilizable en la aplicaci?n para personal y clientes autenticados. Consulta la bandeja persistente por p?ginas, permite filtrar avisos no le?dos y marcar cada aviso como le?do, conserva los avisos SSE/FCM existentes y descarta respuestas obsoletas de otra identidad. Pasaron 3 pruebas focalizadas de la bandeja y compil? `local-don-javier`; la validaci?n real de push y dispositivos contin?a pendiente.
+
 ## Estimación global
 
 **Avance estimado: alrededor de 61 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
@@ -349,3 +351,4 @@ Pendientes para cuando exista autorización y se restablezca el acceso y la fact
 | 2026-11-22, verificado a las 19:17:35 UTC-03:00 (reloj local) | Commit `3ac7057` confirmado en la rama remota. Estimación ponderada aproximada: 61 %. No hubo despliegue, merge ni generación de APK. |
 | 2026-11-27 16:32 UTC-03:00 | Publicados en el monorepo los commits `558978a` y `3d26147`: bandeja persistente de notificaciones, disparador seguro de cobranza y recomendaciones orientativas de reposicion. El porcentaje ponderado se mantiene en aproximadamente 61 % porque no se han validado dispositivos, entorno autorizado ni produccion. |
 | 2026-11-27 16:40 UTC-03:00 | Publicado en el monorepo el commit `1f80697`: equivalencias padre/hijo historicas por venta, con migracion, reportes, CSV y prueba de cambio de regla. El porcentaje ponderado se mantiene en aproximadamente 61 %; no se han validado dispositivos, entorno autorizado ni produccion. |
+| 2026-11-27 17:13 UTC-03:00 | Publicado en el monorepo el commit `6f1e145`: bandeja persistente visible para personal y clientes, con paginacion, filtro de no leidas y marcado de lectura. El porcentaje ponderado se mantiene en aproximadamente 61 %; push real y dispositivos siguen pendientes. |
