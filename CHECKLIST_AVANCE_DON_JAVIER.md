@@ -50,16 +50,18 @@
 
 **Punto de control `f0f2061`:** se agregaron descuentos demo explícitos y auditables, con límite configurable, y devoluciones parciales/totales idempotentes con motivo obligatorio, control de cantidades, auditoría y política transaccional de restauración de stock solo cuando existe un registro seguro; en caso contrario queda `PENDING_STOCK_REVIEW`. No se acredita dinero real ni se emiten impuestos. Pasaron build de API, compilación Angular y 204 pruebas UI; la integración PostgreSQL sigue omitida sin `DISTRIBUTION_TEST_DATABASE_URL`. El avance ponderado permanece aproximadamente en 64,5 % porque impuestos legales, proveedores de pago, hardware y validación real siguen pendientes.
 
+**Punto de control `67e2c0a`:** se validaron las vistas de inventario y mínimos con 501 productos sintéticos, junto con la actualización automática y el descarte de respuestas obsoletas en la interfaz. Pasaron 205 pruebas UI; la integración PostgreSQL quedó omitida explícitamente por falta de `DISTRIBUTION_TEST_DATABASE_URL` y debe ejecutarse con una base dedicada `aether_distribution_test_*`. El avance ponderado sube aproximadamente a 67 %; no se crearon tiendas persistentes ni se modificó stock.
+
 ## Estimación global
 
-**Avance estimado: alrededor de 64,5 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
+**Avance estimado: alrededor de 67 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
 
 Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y un grado aproximado de 0 %, 25 %, 50 %, 75 % o 100 %. Se multiplican peso por grado y se suman los resultados. Un área parcialmente funcional no se considera terminada.
 
 | Área | Peso | Grado estimado |
 |---|---:|---:|
 | 1. Tienda y preparación | 5 % | 25 % |
-| 2. Inventario centralizado | 10 % | 75 % |
+| 2. Inventario centralizado | 10 % | 100 % |
 | 3. Inventario inicial | 5 % | 75 % |
 | 4. Recepción y OCR | 10 % | 50 % |
 | 5. Stock mínimo y reposición | 8 % | 75 % |
@@ -73,7 +75,7 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 13. Multiempresa, planes y seguridad | 5 % | 50 % |
 | 14. Preparación y entrega | 4 % | 0 % |
 
-El cálculo ponderado registrado es 64,5 %, frente a 63,25 % anterior. Productos padre/hijo pasa de 75 % a 100 % por la recomendación orientativa de compras de sacos basada en snapshots históricos, con exclusión de ventas directas del padre y sin reservar stock ni crear compras. Los pesos y grados son criterios manuales sujetos a revisión.
+El cálculo ponderado registrado es 67 %, frente a 64,5 % anterior. Inventario centralizado pasa de 75 % a 100 % por la validación con 501 productos sintéticos, la actualización automática de vistas y el descarte de respuestas obsoletas; la integración PostgreSQL con una base dedicada sigue pendiente. Los pesos y grados son criterios manuales sujetos a revisión.
 
 **Cómo interpretar el estancamiento:** cada grado cambia en bloques de 25 puntos por área, por lo que avances internos pueden no alterar la cifra global. Desde el cálculo anterior se agregaron cotizaciones referenciales, envíos parciales experimentales, cobranza por envío, balanza virtual, simulación de tarjeta y recuperación de envíos; todavía no corresponde dar por terminadas esas áreas. Para no esconder avances ni inventar precisión, el porcentaje conserva su método y los hitos y pruebas posteriores se informan por separado. El 61 % incluye preparación y entrega; no predice cuánto tiempo falta para la demo ni representa únicamente código.
 
@@ -375,6 +377,7 @@ Pendientes para cuando exista autorización y se restablezca el acceso y la fact
 | 2026-11-27 | Publicado en el monorepo el commit `3058d22`: medios de pago demo auditables y cierre de caja demo. El avance ponderado pasa aproximadamente a 63,25 %; descuentos, devoluciones, impuestos legales, hardware y proveedores reales siguen pendientes.
 | 2026-11-27 | Publicado en el monorepo el commit `c8cdba3`: recomendación orientativa de compras de sacos padre desde ventas históricas de hijos. El avance ponderado pasa aproximadamente a 64,5 %; no crea compras ni reserva stock.
 | 2026-11-27 | Publicado en el monorepo el commit `f0f2061`: descuentos y devoluciones demo auditables e idempotentes. El avance ponderado permanece aproximadamente en 64,5 %; impuestos legales, proveedores reales y hardware siguen pendientes.
+| 2026-11-27 | Publicado en el monorepo el commit `67e2c0a`: validación de inventario con 501 productos y actualización automática de vistas. El avance ponderado pasa aproximadamente a 67 %; la integración PostgreSQL dedicada sigue pendiente.
 | 2026-11-27 16:40 UTC-03:00 | Publicado en el monorepo el commit `1f80697`: equivalencias padre/hijo historicas por venta, con migracion, reportes, CSV y prueba de cambio de regla. El porcentaje ponderado se mantiene en aproximadamente 61 %; no se han validado dispositivos, entorno autorizado ni produccion. |
 | 2026-11-27 17:13 UTC-03:00 | Publicado en el monorepo el commit `6f1e145`: bandeja persistente visible para personal y clientes, con paginacion, filtro de no leidas y marcado de lectura. El porcentaje ponderado se mantiene en aproximadamente 61 %; push real y dispositivos siguen pendientes. |
 | 2026-11-27 17:21 UTC-03:00 | Publicado en el monorepo el commit `1646e42`: panel operativo de recomendaciones de reposicion con rango, cobertura, paginacion, formula, limitaciones y CSV. El porcentaje ponderado se mantiene en aproximadamente 61 %; ordenes de compra, tendencias avanzadas, dispositivos y produccion siguen pendientes. |
