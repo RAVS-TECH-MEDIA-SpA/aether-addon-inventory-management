@@ -48,6 +48,8 @@
 
 **Punto de control `c8cdba3`:** se agregó la recomendación orientativa de compras de productos padre/sacos desde ventas históricas de hijos, usando snapshots de equivalencia, exclusión de ventas directas del padre, stock y mínimos del padre, paginación, explicación y CSV. No crea órdenes ni reserva stock. Pasaron comprobación de tipos API, compilación Angular y 6 pruebas UI; la integración PostgreSQL sigue omitida sin `DISTRIBUTION_TEST_DATABASE_URL`. El avance ponderado sube aproximadamente a 64,5 %; compras reales, estacionalidad avanzada y validación operativa siguen pendientes.
 
+**Punto de control `f0f2061`:** se agregaron descuentos demo explícitos y auditables, con límite configurable, y devoluciones parciales/totales idempotentes con motivo obligatorio, control de cantidades, auditoría y política transaccional de restauración de stock solo cuando existe un registro seguro; en caso contrario queda `PENDING_STOCK_REVIEW`. No se acredita dinero real ni se emiten impuestos. Pasaron build de API, compilación Angular y 204 pruebas UI; la integración PostgreSQL sigue omitida sin `DISTRIBUTION_TEST_DATABASE_URL`. El avance ponderado permanece aproximadamente en 64,5 % porque impuestos legales, proveedores de pago, hardware y validación real siguen pendientes.
+
 ## Estimación global
 
 **Avance estimado: alrededor de 64,5 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
@@ -187,7 +189,8 @@ La ampliación de la heurística de carga pasó 6 pruebas web de geometría, par
 - Balanza Bluetooth física: fuera del alcance actual; se evaluará si el cliente la solicita.
 - [x] Incorporar una experiencia visual de tarjeta **simulada**, claramente rotulada como demo y sin datos reales de tarjetas; publicada en la rama.
 - [x] Registrar medios de pago demo auditables y cierres de caja demo con diferencia esperada/contada.
-- [ ] Completar descuentos, devoluciones e impuestos; la emisión tributaria legal sigue fuera del alcance actual.
+- [x] Implementar descuentos y devoluciones demo auditables, con límites, motivos, idempotencia y saldos recalculados.
+- [ ] Implementar impuestos y emisión tributaria legal; permanece fuera del alcance actual hasta definir proveedor.
 - [x] Implementar cierre de caja demo por tienda/usuario, con monto esperado, contado y diferencia.
   - La conciliación financiera real y los proveedores de pago siguen pendientes.
 - [ ] Probar lector de códigos e impresora físicos.
@@ -371,6 +374,7 @@ Pendientes para cuando exista autorización y se restablezca el acceso y la fact
 | 2026-11-27 | Publicado en el monorepo el commit `6386892`: panel ejecutivo operativo de solo lectura para ventas, stock, reposición y cobranza. El porcentaje ponderado permanece aproximadamente en 61 %; la validación real y producción siguen pendientes.
 | 2026-11-27 | Publicado en el monorepo el commit `3058d22`: medios de pago demo auditables y cierre de caja demo. El avance ponderado pasa aproximadamente a 63,25 %; descuentos, devoluciones, impuestos legales, hardware y proveedores reales siguen pendientes.
 | 2026-11-27 | Publicado en el monorepo el commit `c8cdba3`: recomendación orientativa de compras de sacos padre desde ventas históricas de hijos. El avance ponderado pasa aproximadamente a 64,5 %; no crea compras ni reserva stock.
+| 2026-11-27 | Publicado en el monorepo el commit `f0f2061`: descuentos y devoluciones demo auditables e idempotentes. El avance ponderado permanece aproximadamente en 64,5 %; impuestos legales, proveedores reales y hardware siguen pendientes.
 | 2026-11-27 16:40 UTC-03:00 | Publicado en el monorepo el commit `1f80697`: equivalencias padre/hijo historicas por venta, con migracion, reportes, CSV y prueba de cambio de regla. El porcentaje ponderado se mantiene en aproximadamente 61 %; no se han validado dispositivos, entorno autorizado ni produccion. |
 | 2026-11-27 17:13 UTC-03:00 | Publicado en el monorepo el commit `6f1e145`: bandeja persistente visible para personal y clientes, con paginacion, filtro de no leidas y marcado de lectura. El porcentaje ponderado se mantiene en aproximadamente 61 %; push real y dispositivos siguen pendientes. |
 | 2026-11-27 17:21 UTC-03:00 | Publicado en el monorepo el commit `1646e42`: panel operativo de recomendaciones de reposicion con rango, cobertura, paginacion, formula, limitaciones y CSV. El porcentaje ponderado se mantiene en aproximadamente 61 %; ordenes de compra, tendencias avanzadas, dispositivos y produccion siguen pendientes. |
