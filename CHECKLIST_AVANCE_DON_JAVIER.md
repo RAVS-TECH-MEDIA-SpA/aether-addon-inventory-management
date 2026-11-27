@@ -54,9 +54,11 @@
 
 **Punto de control `4d403f8`:** se agregó una suite de regresión de seguridad para aislamiento tenant/addon, roles mínimos, acceso cruzado, idempotencia/auditoría y límites de paginación/fechas; además se convirtió el descuento POS de stock en consulta set-based. El documento de auditoría enumera exclusiones: pentest, GCP, producción, notificaciones físicas y validación con datos reales. El build API pasó y la integración PostgreSQL quedó omitida sin `DISTRIBUTION_TEST_DATABASE_URL`. El avance ponderado sube aproximadamente a 68,25 %.
 
+**Punto de control `58dd0c0` — hito 70 %:** se completaron las experiencias web contextualizadas de administración, vendedor y bodega, con navegación por rol, acciones existentes, estados de carga/vacío/error y correcciones de textos del panel ejecutivo. Pasaron 206 pruebas Angular y el build de desarrollo; no se añadieron permisos backend, APK, conductor completo ni dispositivos. El avance ponderado alcanza aproximadamente 70,75 %.
+
 ## Estimación global
 
-**Avance estimado: alrededor de 68,25 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
+**Avance estimado: alrededor de 70,75 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
 
 Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y un grado aproximado de 0 %, 25 %, 50 %, 75 % o 100 %. Se multiplican peso por grado y se suman los resultados. Un área parcialmente funcional no se considera terminada.
 
@@ -73,13 +75,13 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 9. Cuentas por cobrar | 8 % | 75 % |
 | 10. Documentos ficticios | 3 % | 75 % |
 | 11. Reportes y análisis | 8 % | 75 % |
-| 12. Web, app y roles | 10 % | 50 % |
+| 12. Web, app y roles | 10 % | 75 % |
 | 13. Multiempresa, planes y seguridad | 5 % | 75 % |
 | 14. Preparación y entrega | 4 % | 0 % |
 
-El cálculo ponderado registrado es 68,25 %, frente a 67 % anterior. Multiempresa, planes y seguridad pasa de 50 % a 75 % por la revisión automatizada de aislamiento tenant/addon, roles, auditoría, idempotencia, límites y consultas set-based; pentest, producción, GCP y notificaciones físicas siguen pendientes. Los pesos y grados son criterios manuales sujetos a revisión.
+El cálculo ponderado registrado es 70,75 %, frente a 68,25 % anterior. Web, app y roles pasa de 50 % a 75 % por las experiencias web contextualizadas de administración, vendedor y bodega, con navegación, estados y acciones limitadas por rol; conductor completo, APK, dispositivos y pruebas físicas siguen pendientes. Los pesos y grados son criterios manuales sujetos a revisión.
 
-**Cómo interpretar el estancamiento:** cada grado cambia en bloques de 25 puntos por área, por lo que avances internos pueden no alterar la cifra global. Desde el cálculo anterior se agregaron cotizaciones referenciales, envíos parciales experimentales, cobranza por envío, balanza virtual, simulación de tarjeta y recuperación de envíos; todavía no corresponde dar por terminadas esas áreas. Para no esconder avances ni inventar precisión, el porcentaje conserva su método y los hitos y pruebas posteriores se informan por separado. El 68,25 % incluye preparación y entrega; no predice cuánto tiempo falta para la demo ni representa únicamente código.
+**Cómo interpretar el estancamiento:** cada grado cambia en bloques de 25 puntos por área, por lo que avances internos pueden no alterar la cifra global. Desde el cálculo anterior se agregaron cotizaciones referenciales, envíos parciales experimentales, cobranza por envío, balanza virtual, simulación de tarjeta y recuperación de envíos; todavía no corresponde dar por terminadas esas áreas. Para no esconder avances ni inventar precisión, el porcentaje conserva su método y los hitos y pruebas posteriores se informan por separado. El 70,75 % incluye preparación y entrega; no predice cuánto tiempo falta para la demo ni representa únicamente código.
 
 **Recuento complementario, antes del nuevo punto de control:** 102 de 159 casillas estaban marcadas (64,2 %). Cuenta todas las casillas por igual, incluso publicaciones y activaciones de producción; no mide trabajo ni reemplaza la estimación ponderada de 61 %. No demuestra que el código esté al 69 % ni permite calcular una fecha de término. Las áreas más alejadas de la entrega incluyen tienda y preparación (0 de 6), web/app y roles (5 de 11), multiempresa y seguridad (3 de 7), y preparación/entrega y activaciones (9 de 25). Estas cifras reflejan las casillas tal como estaban redactadas en esta revisión; pueden cambiar al subdividir o aclarar tareas.
 
@@ -292,7 +294,8 @@ Los nuevos reportes locales de deudas y pagos utilizan una consulta por reporte,
 - [x] Inicio de sesión inicial para personal de distribución.
 - [x] Base de permisos para administración, bodega, vendedor y despacho.
 - [x] Panel web inicial adaptable con menús y acciones por rol, diferenciado de Mayro.
-- [ ] Completar experiencias de administración, vendedor y bodega.
+- [x] Completar experiencias web de administración, vendedor y bodega, con navegación contextual, estados de carga/error/vacío y acciones limitadas por rol.
+  - Conductor completo, APK, validación física y dispositivos reales siguen pendientes.
 - [x] Permitir al cliente autenticado consultar sus pedidos y estados declarados, con aislamiento por tienda y cliente; probado con datos sintéticos.
 - [x] Permitir al cliente solicitar pedidos, consultar saldos y declarar recepción tras la entrega declarada, con pruebas locales.
 - [ ] Completar la experiencia de cliente, incluidos precios confirmados y validación en dispositivos reales.
@@ -382,6 +385,7 @@ Pendientes para cuando exista autorización y se restablezca el acceso y la fact
 | 2026-11-27 | Publicado en el monorepo el commit `f0f2061`: descuentos y devoluciones demo auditables e idempotentes. El avance ponderado permanece aproximadamente en 64,5 %; impuestos legales, proveedores reales y hardware siguen pendientes.
 | 2026-11-27 | Publicado en el monorepo el commit `67e2c0a`: validación de inventario con 501 productos y actualización automática de vistas. El avance ponderado pasa aproximadamente a 67 %; la integración PostgreSQL dedicada sigue pendiente.
 | 2026-11-27 | Publicado en el monorepo el commit `4d403f8`: revisión automatizada de seguridad, aislamiento, auditoría y consultas set-based. El avance ponderado pasa aproximadamente a 68,25 %; pentest y producción siguen pendientes.
+| 2026-11-27 | Publicado en el monorepo el commit `58dd0c0`: experiencias web contextualizadas para administración, vendedor y bodega. El avance ponderado alcanza aproximadamente 70,75 % y se registra el hito 70 %; conductor, APK, dispositivos y producción siguen pendientes.
 | 2026-11-27 16:40 UTC-03:00 | Publicado en el monorepo el commit `1f80697`: equivalencias padre/hijo historicas por venta, con migracion, reportes, CSV y prueba de cambio de regla. El porcentaje ponderado se mantiene en aproximadamente 61 %; no se han validado dispositivos, entorno autorizado ni produccion. |
 | 2026-11-27 17:13 UTC-03:00 | Publicado en el monorepo el commit `6f1e145`: bandeja persistente visible para personal y clientes, con paginacion, filtro de no leidas y marcado de lectura. El porcentaje ponderado se mantiene en aproximadamente 61 %; push real y dispositivos siguen pendientes. |
 | 2026-11-27 17:21 UTC-03:00 | Publicado en el monorepo el commit `1646e42`: panel operativo de recomendaciones de reposicion con rango, cobertura, paginacion, formula, limitaciones y CSV. El porcentaje ponderado se mantiene en aproximadamente 61 %; ordenes de compra, tendencias avanzadas, dispositivos y produccion siguen pendientes. |
