@@ -44,9 +44,11 @@
 
 **Punto de control `6386892`:** se agregó un panel ejecutivo operativo de solo lectura para administración y gestión de tienda, con resumen de ventas POS, stock bajo mínimo, recomendaciones de reposición y cobranza existente, filtros de fecha, estados vacíos/error y consultas set-based sin N+1. No modifica stock, pagos ni contabilidad. Pasaron build de API, compilación `local-don-javier` y pruebas focalizadas; la integración PostgreSQL sigue omitida sin `DISTRIBUTION_TEST_DATABASE_URL`. El avance ponderado permanece aproximadamente en 61 % porque la validación real, dispositivos, compras/recepción y producción siguen pendientes.
 
+**Punto de control `3058d22`:** se agregaron medios de pago demo (`CASH`, `CARD_SIMULATED`, `TRANSFER_SIMULATED` y `OTHER_SIMULATED`) con idempotencia, Decimal, bloqueo de sobrepago, anulación/corrección con motivo y auditoría, además de cierres por tienda/usuario con esperado, contado y diferencia. El pago no modifica stock ni acredita dinero real. Pasaron Prisma validate, build de API y 12 pruebas focalizadas POS/caja; la integración PostgreSQL sigue omitida sin `DISTRIBUTION_TEST_DATABASE_URL`. El avance ponderado sube aproximadamente a 63,25 %; descuentos, devoluciones, impuestos legales, hardware y proveedores reales siguen pendientes.
+
 ## Estimación global
 
-**Avance estimado: alrededor de 61 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
+**Avance estimado: alrededor de 63,25 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
 
 Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y un grado aproximado de 0 %, 25 %, 50 %, 75 % o 100 %. Se multiplican peso por grado y se suman los resultados. Un área parcialmente funcional no se considera terminada.
 
@@ -58,7 +60,7 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 4. Recepción y OCR | 10 % | 50 % |
 | 5. Stock mínimo y reposición | 8 % | 75 % |
 | 6. Traslados y despachos | 10 % | 75 % |
-| 7. Punto de venta y códigos | 9 % | 50 % |
+| 7. Punto de venta y códigos | 9 % | 75 % |
 | 8. Productos padre/hijo | 5 % | 75 % |
 | 9. Cuentas por cobrar | 8 % | 75 % |
 | 10. Documentos ficticios | 3 % | 75 % |
@@ -67,7 +69,7 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 13. Multiempresa, planes y seguridad | 5 % | 50 % |
 | 14. Preparación y entrega | 4 % | 0 % |
 
-El cálculo ponderado registrado es 61 %, frente a 57,25 % anterior. Tienda y preparación pasa de 0 % a 25 % por el generador y las pruebas con datos temporales, no por una tienda persistente. Web, app y roles pasa de 25 % a 50 % por el perfil independiente y las funciones iniciales del cliente; la APK y la validación física siguen pendientes. Los pesos y grados son criterios manuales sujetos a revisión.
+El cálculo ponderado registrado es 63,25 %, frente a 61 % anterior. Punto de venta y códigos pasa de 50 % a 75 % por el registro demo auditable de medios de pago y cierres de caja; descuentos, devoluciones, impuestos, proveedores de pago y dispositivos físicos siguen pendientes. Los pesos y grados son criterios manuales sujetos a revisión.
 
 **Cómo interpretar el estancamiento:** cada grado cambia en bloques de 25 puntos por área, por lo que avances internos pueden no alterar la cifra global. Desde el cálculo anterior se agregaron cotizaciones referenciales, envíos parciales experimentales, cobranza por envío, balanza virtual, simulación de tarjeta y recuperación de envíos; todavía no corresponde dar por terminadas esas áreas. Para no esconder avances ni inventar precisión, el porcentaje conserva su método y los hitos y pruebas posteriores se informan por separado. El 61 % incluye preparación y entrega; no predice cuánto tiempo falta para la demo ni representa únicamente código.
 
@@ -182,8 +184,10 @@ La ampliación de la heurística de carga pasó 6 pruebas web de geometría, par
 - [x] Incorporar balanza virtual con peso ingresado manualmente; publicada en la rama.
 - Balanza Bluetooth física: fuera del alcance actual; se evaluará si el cliente la solicita.
 - [x] Incorporar una experiencia visual de tarjeta **simulada**, claramente rotulada como demo y sin datos reales de tarjetas; publicada en la rama.
-- [ ] Registrar medios de pago, descuentos, devoluciones e impuestos.
-- [ ] Implementar cierre de caja.
+- [x] Registrar medios de pago demo auditables y cierres de caja demo con diferencia esperada/contada.
+- [ ] Completar descuentos, devoluciones e impuestos; la emisión tributaria legal sigue fuera del alcance actual.
+- [x] Implementar cierre de caja demo por tienda/usuario, con monto esperado, contado y diferencia.
+  - La conciliación financiera real y los proveedores de pago siguen pendientes.
 - [ ] Probar lector de códigos e impresora físicos.
 
 Los precios existentes usan `Float`; el POS rechaza precios con más de dos decimales. Este flujo no configura moneda ni acredita pagos. El peso manual solo debe aplicarse a productos cuyo precio y stock se expresen por kg; no se verifica físicamente. El terminal simulado no registra pagos ni se conecta a un proveedor; la venta y descuento de stock ya se registraron antes de mostrarlo. Si se borra el almacenamiento del navegador o se cambia de dispositivo, no se recupera automáticamente el intento.
@@ -363,6 +367,7 @@ Pendientes para cuando exista autorización y se restablezca el acceso y la fact
 | 2026-11-27 16:32 UTC-03:00 | Publicados en el monorepo los commits `558978a` y `3d26147`: bandeja persistente de notificaciones, disparador seguro de cobranza y recomendaciones orientativas de reposicion. El porcentaje ponderado se mantiene en aproximadamente 61 % porque no se han validado dispositivos, entorno autorizado ni produccion. |
 | 2026-11-27 | Publicados en el monorepo `714364e` y `d856639`: borradores de órdenes de reposición, cancelación auditada y edición controlada en estado `DRAFT`. El porcentaje ponderado permanece aproximadamente en 61 %; no hay compra externa ni movimiento de stock.
 | 2026-11-27 | Publicado en el monorepo el commit `6386892`: panel ejecutivo operativo de solo lectura para ventas, stock, reposición y cobranza. El porcentaje ponderado permanece aproximadamente en 61 %; la validación real y producción siguen pendientes.
+| 2026-11-27 | Publicado en el monorepo el commit `3058d22`: medios de pago demo auditables y cierre de caja demo. El avance ponderado pasa aproximadamente a 63,25 %; descuentos, devoluciones, impuestos legales, hardware y proveedores reales siguen pendientes.
 | 2026-11-27 16:40 UTC-03:00 | Publicado en el monorepo el commit `1f80697`: equivalencias padre/hijo historicas por venta, con migracion, reportes, CSV y prueba de cambio de regla. El porcentaje ponderado se mantiene en aproximadamente 61 %; no se han validado dispositivos, entorno autorizado ni produccion. |
 | 2026-11-27 17:13 UTC-03:00 | Publicado en el monorepo el commit `6f1e145`: bandeja persistente visible para personal y clientes, con paginacion, filtro de no leidas y marcado de lectura. El porcentaje ponderado se mantiene en aproximadamente 61 %; push real y dispositivos siguen pendientes. |
 | 2026-11-27 17:21 UTC-03:00 | Publicado en el monorepo el commit `1646e42`: panel operativo de recomendaciones de reposicion con rango, cobertura, paginacion, formula, limitaciones y CSV. El porcentaje ponderado se mantiene en aproximadamente 61 %; ordenes de compra, tendencias avanzadas, dispositivos y produccion siguen pendientes. |
