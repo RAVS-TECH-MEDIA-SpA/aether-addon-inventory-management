@@ -46,9 +46,11 @@
 
 **Punto de control `3058d22`:** se agregaron medios de pago demo (`CASH`, `CARD_SIMULATED`, `TRANSFER_SIMULATED` y `OTHER_SIMULATED`) con idempotencia, Decimal, bloqueo de sobrepago, anulación/corrección con motivo y auditoría, además de cierres por tienda/usuario con esperado, contado y diferencia. El pago no modifica stock ni acredita dinero real. Pasaron Prisma validate, build de API y 12 pruebas focalizadas POS/caja; la integración PostgreSQL sigue omitida sin `DISTRIBUTION_TEST_DATABASE_URL`. El avance ponderado sube aproximadamente a 63,25 %; descuentos, devoluciones, impuestos legales, hardware y proveedores reales siguen pendientes.
 
+**Punto de control `c8cdba3`:** se agregó la recomendación orientativa de compras de productos padre/sacos desde ventas históricas de hijos, usando snapshots de equivalencia, exclusión de ventas directas del padre, stock y mínimos del padre, paginación, explicación y CSV. No crea órdenes ni reserva stock. Pasaron comprobación de tipos API, compilación Angular y 6 pruebas UI; la integración PostgreSQL sigue omitida sin `DISTRIBUTION_TEST_DATABASE_URL`. El avance ponderado sube aproximadamente a 64,5 %; compras reales, estacionalidad avanzada y validación operativa siguen pendientes.
+
 ## Estimación global
 
-**Avance estimado: alrededor de 63,25 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
+**Avance estimado: alrededor de 64,5 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
 
 Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y un grado aproximado de 0 %, 25 %, 50 %, 75 % o 100 %. Se multiplican peso por grado y se suman los resultados. Un área parcialmente funcional no se considera terminada.
 
@@ -61,7 +63,7 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 5. Stock mínimo y reposición | 8 % | 75 % |
 | 6. Traslados y despachos | 10 % | 75 % |
 | 7. Punto de venta y códigos | 9 % | 75 % |
-| 8. Productos padre/hijo | 5 % | 75 % |
+| 8. Productos padre/hijo | 5 % | 100 % |
 | 9. Cuentas por cobrar | 8 % | 75 % |
 | 10. Documentos ficticios | 3 % | 75 % |
 | 11. Reportes y análisis | 8 % | 75 % |
@@ -69,7 +71,7 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 13. Multiempresa, planes y seguridad | 5 % | 50 % |
 | 14. Preparación y entrega | 4 % | 0 % |
 
-El cálculo ponderado registrado es 63,25 %, frente a 61 % anterior. Punto de venta y códigos pasa de 50 % a 75 % por el registro demo auditable de medios de pago y cierres de caja; descuentos, devoluciones, impuestos, proveedores de pago y dispositivos físicos siguen pendientes. Los pesos y grados son criterios manuales sujetos a revisión.
+El cálculo ponderado registrado es 64,5 %, frente a 63,25 % anterior. Productos padre/hijo pasa de 75 % a 100 % por la recomendación orientativa de compras de sacos basada en snapshots históricos, con exclusión de ventas directas del padre y sin reservar stock ni crear compras. Los pesos y grados son criterios manuales sujetos a revisión.
 
 **Cómo interpretar el estancamiento:** cada grado cambia en bloques de 25 puntos por área, por lo que avances internos pueden no alterar la cifra global. Desde el cálculo anterior se agregaron cotizaciones referenciales, envíos parciales experimentales, cobranza por envío, balanza virtual, simulación de tarjeta y recuperación de envíos; todavía no corresponde dar por terminadas esas áreas. Para no esconder avances ni inventar precisión, el porcentaje conserva su método y los hitos y pruebas posteriores se informan por separado. El 61 % incluye preparación y entrega; no predice cuánto tiempo falta para la demo ni representa únicamente código.
 
@@ -368,6 +370,7 @@ Pendientes para cuando exista autorización y se restablezca el acceso y la fact
 | 2026-11-27 | Publicados en el monorepo `714364e` y `d856639`: borradores de órdenes de reposición, cancelación auditada y edición controlada en estado `DRAFT`. El porcentaje ponderado permanece aproximadamente en 61 %; no hay compra externa ni movimiento de stock.
 | 2026-11-27 | Publicado en el monorepo el commit `6386892`: panel ejecutivo operativo de solo lectura para ventas, stock, reposición y cobranza. El porcentaje ponderado permanece aproximadamente en 61 %; la validación real y producción siguen pendientes.
 | 2026-11-27 | Publicado en el monorepo el commit `3058d22`: medios de pago demo auditables y cierre de caja demo. El avance ponderado pasa aproximadamente a 63,25 %; descuentos, devoluciones, impuestos legales, hardware y proveedores reales siguen pendientes.
+| 2026-11-27 | Publicado en el monorepo el commit `c8cdba3`: recomendación orientativa de compras de sacos padre desde ventas históricas de hijos. El avance ponderado pasa aproximadamente a 64,5 %; no crea compras ni reserva stock.
 | 2026-11-27 16:40 UTC-03:00 | Publicado en el monorepo el commit `1f80697`: equivalencias padre/hijo historicas por venta, con migracion, reportes, CSV y prueba de cambio de regla. El porcentaje ponderado se mantiene en aproximadamente 61 %; no se han validado dispositivos, entorno autorizado ni produccion. |
 | 2026-11-27 17:13 UTC-03:00 | Publicado en el monorepo el commit `6f1e145`: bandeja persistente visible para personal y clientes, con paginacion, filtro de no leidas y marcado de lectura. El porcentaje ponderado se mantiene en aproximadamente 61 %; push real y dispositivos siguen pendientes. |
 | 2026-11-27 17:21 UTC-03:00 | Publicado en el monorepo el commit `1646e42`: panel operativo de recomendaciones de reposicion con rango, cobertura, paginacion, formula, limitaciones y CSV. El porcentaje ponderado se mantiene en aproximadamente 61 %; ordenes de compra, tendencias avanzadas, dispositivos y produccion siguen pendientes. |
