@@ -323,11 +323,12 @@ Los nuevos reportes locales de deudas y pagos utilizan una consulta por reporte,
 - [x] Base de permisos para administración, bodega, vendedor y despacho.
 - [x] Panel web inicial adaptable con menús y acciones por rol, diferenciado de Mayro.
 - [x] Completar experiencias web de administración, vendedor y bodega, con navegación contextual, estados de carga/error/vacío y acciones limitadas por rol.
-  - Conductor completo, APK, validación física y dispositivos reales siguen pendientes.
+  - GPS, custodia física, APK, validación física y dispositivos reales siguen pendientes.
 - [x] Permitir al cliente autenticado consultar sus pedidos y estados declarados, con aislamiento por tienda y cliente; probado con datos sintéticos.
 - [x] Permitir al cliente solicitar pedidos, consultar saldos y declarar recepción tras la entrega declarada, con pruebas locales.
 - [ ] Completar la experiencia de cliente, incluidos precios confirmados y validación en dispositivos reales.
-- [ ] Completar experiencia de despacho y conductor; existe una vista inicial para consultar asignaciones, leer QR y declarar estados.
+- [x] Completar experiencia web de despacho y conductor; consulta asignaciones autorizadas, lee QR y declara estados con idempotencia.
+  - GPS, custodia física, APK, validación física y dispositivos reales siguen pendientes.
 - [ ] Terminar diseño propio de la web y landing de Don Javier.
 - [ ] Crear una app móvil por tienda para los cinco roles y generar su APK.
 - [ ] Probar los flujos de extremo a extremo en teléfonos y dispositivos reales.
