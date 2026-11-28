@@ -67,6 +67,8 @@
 
 **Punto de control `80946c3`:** se completó la interfaz operativa para aplicar créditos excedentes a otra deuda activa del mismo cliente y para anular aplicaciones mediante eventos auditados. La pantalla consulta aplicaciones relacionadas, limita destino e importe según los saldos del servidor, conserva solo el identificador de operaciones inciertas para recuperación local y reintenta de forma idempotente. Se agregó `GET /credit-applications` y los saldos exponen crédito aplicado y crédito disponible. Pasaron 27 pruebas Angular focalizadas, 7 pruebas integrales en PostgreSQL aislado, `git diff --check`, build API y build Angular; persisten solo advertencias preexistentes. La estimación integral permanece aproximadamente en 70,75 % porque producción, autorización, datos reales, dispositivos, notificaciones y validación física siguen pendientes.
 
+**Punto de control APK Android (28 de noviembre de 2026):** la configuración `local-mobile` compiló, Capacitor sincronizó los siete plugins nativos y Gradle generó correctamente `app-debug.apk` para la demo local. El artefacto se generó solo para validación técnica; no está firmado para producción, no se ha instalado en un teléfono ni se han probado biometría, cámara, QR, conexión o notificaciones físicas. La estimación integral permanece aproximadamente en 70,75 %.
+
 **Punto de control `69a23e3`:** se completó la validación PostgreSQL aislada del alcance Don Javier: se aplicaron las 38 migraciones versionadas de la rama, incluyendo `PushDevice` y la conversión de stock global a cantidades fraccionarias. Pasaron 122 pruebas de las 14 suites de distribución, 17 pruebas del reporte histórico y 7 pruebas del flujo integral de demo. También se corrigieron la devolución POS, las recomendaciones y el análisis histórico. La base fue temporal y separada; no se aplicaron migraciones a una base compartida ni se validaron dispositivos, producción, pagos reales o notificaciones push. El avance ponderado permanece aproximadamente en 70,75 %.
 
 **Punto de control `3339f8d`:** al vincular una deuda ficticia a un pedido despachado o a un envío, la API ahora exige que el importe coincida con el precio confirmado persistido; rechaza pedidos anulados, precios ausentes e importes manipulados, y calcula el importe de envíos parciales a partir de sus líneas confirmadas. Se actualizaron los flujos integrales y la compilación de la API pasó correctamente. La prueba PostgreSQL de este nuevo comportamiento quedó preparada, pero no se ejecutó en esta sesión porque no existe una base dedicada configurada; el avance ponderado permanece aproximadamente en 70,75 %.
@@ -104,7 +106,7 @@ Para dar continuidad a futuras actualizaciones se asignó a cada área un peso y
 | 13. Multiempresa, planes y seguridad | 5 % | 75 % |
 | 14. Preparación y entrega | 4 % | 0 % |
 
-El cálculo ponderado registrado es 70,75 %, frente a 68,25 % anterior. Web, app y roles pasa de 50 % a 75 % por las experiencias web contextualizadas de administración, vendedor y bodega, con navegación, estados y acciones limitadas por rol; conductor completo, APK, dispositivos y pruebas físicas siguen pendientes. Los pesos y grados son criterios manuales sujetos a revisión.
+El cálculo ponderado registrado es 70,75 %, frente a 68,25 % anterior. Web, app y roles pasa de 50 % a 75 % por las experiencias web contextualizadas de administración, vendedor y bodega, con navegación, estados y acciones limitadas por rol; la APK demo Android ya compila, pero firma productiva, dispositivos y pruebas físicas siguen pendientes. Los pesos y grados son criterios manuales sujetos a revisión.
 
 **Cómo interpretar el estancamiento:** cada grado cambia en bloques de 25 puntos por área, por lo que avances internos pueden no alterar la cifra global. Desde el cálculo anterior se agregaron cotizaciones referenciales, envíos parciales experimentales, cobranza por envío, balanza virtual, simulación de tarjeta y recuperación de envíos; todavía no corresponde dar por terminadas esas áreas. Para no esconder avances ni inventar precisión, el porcentaje conserva su método y los hitos y pruebas posteriores se informan por separado. El 70,75 % incluye preparación y entrega; no predice cuánto tiempo falta para la demo ni representa únicamente código.
 
@@ -323,14 +325,15 @@ Los nuevos reportes locales de deudas y pagos utilizan una consulta por reporte,
 - [x] Base de permisos para administración, bodega, vendedor y despacho.
 - [x] Panel web inicial adaptable con menús y acciones por rol, diferenciado de Mayro.
 - [x] Completar experiencias web de administración, vendedor y bodega, con navegación contextual, estados de carga/error/vacío y acciones limitadas por rol.
-  - GPS, custodia física, APK, validación física y dispositivos reales siguen pendientes.
+  - GPS, custodia física, firma productiva, validación física y dispositivos reales siguen pendientes.
 - [x] Permitir al cliente autenticado consultar sus pedidos y estados declarados, con aislamiento por tienda y cliente; probado con datos sintéticos.
 - [x] Permitir al cliente solicitar pedidos, consultar saldos y declarar recepción tras la entrega declarada, con pruebas locales.
 - [ ] Completar la experiencia de cliente, incluidos precios confirmados y validación en dispositivos reales.
 - [x] Completar experiencia web de despacho y conductor; consulta asignaciones autorizadas, lee QR y declara estados con idempotencia.
-  - GPS, custodia física, APK, validación física y dispositivos reales siguen pendientes.
+  - GPS, custodia física, firma productiva, validación física y dispositivos reales siguen pendientes.
 - [ ] Terminar diseño propio de la web y landing de Don Javier.
-- [ ] Crear una app móvil por tienda para los cinco roles y generar su APK.
+- [x] Crear la app móvil demo por tienda para los cinco roles y generar la APK Android debug.
+  - La firma productiva, iOS, instalación y validación en teléfonos reales siguen pendientes.
 - [ ] Probar los flujos de extremo a extremo en teléfonos y dispositivos reales.
 
 El pedido no reserva stock ni fija precios: los valores del catálogo son referenciales. La recepción es una declaración del cliente; no comprueba automáticamente el contenido ni acredita pago. La interfaz guarda el intento de pedido en el navegador para reintentos, pero cambiar de navegador o borrar sus datos pierde esa recuperación. Una pantalla responsive no equivale a una app móvil terminada. Los cinco roles previstos son cliente, vendedor, administrador, bodega y despacho.
@@ -367,7 +370,7 @@ Los addons deben ser independientes entre sí. Las pruebas aisladas todavía no 
 - [ ] Planificar capacitación y medir las metas de precisión, tiempo, stock, cobranza y cierre.
 - [ ] Revisar los cambios pendientes y completar la validación integral antes de hacer merge a `main`; no se hará merge hasta completar la tienda Don Javier.
 
-La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas. La etapa de pedidos, anulaciones y reportes pasó 34 pruebas API y 59 web dirigidas. La etapa de seguimiento inicial pasó 22 pruebas API de inventario/POS, 9 de pedidos y seguimiento, 34 web de POS/panel y 39 web de seguimiento, etiquetas, carga y panel; se repitió además una prueba del planificador tras su último ajuste. Posteriormente se validaron las 20 migraciones en PostgreSQL temporal aislado. Angular compiló para producción y `local-mobile`; la API pasó verificación de tipos. Persisten advertencias de CSS Mayro, `qrcode` y `ts-jest`; Jest requirió `--forceExit`. No se ha generado ni probado una APK con estos cambios.
+La base subida se validó con 42 pruebas API y 55 pruebas web dirigidas. La etapa de pedidos, anulaciones y reportes pasó 34 pruebas API y 59 web dirigidas. La etapa de seguimiento inicial pasó 22 pruebas API de inventario/POS, 9 de pedidos y seguimiento, 34 web de POS/panel y 39 web de seguimiento, etiquetas, carga y panel; se repitió además una prueba del planificador tras su último ajuste. Posteriormente se validaron las 20 migraciones en PostgreSQL temporal aislado. Angular compiló para producción y `local-mobile`; la API pasó verificación de tipos. Persisten advertencias de CSS Mayro, `qrcode` y `ts-jest`; Jest requirió `--forceExit`. La APK Android debug de la demo ya fue generada, pero todavía no se ha instalado ni probado en dispositivos reales.
 
 ### Activaciones y verificaciones antes de producción
 
@@ -416,6 +419,7 @@ Pendientes para cuando exista autorización y se restablezca el acceso y la fact
 | 2026-11-27 | Publicado en el monorepo el commit `4d403f8`: revisión automatizada de seguridad, aislamiento, auditoría y consultas set-based. El avance ponderado pasa aproximadamente a 68,25 %; pentest y producción siguen pendientes.
 | 2026-11-27 | Publicado en el monorepo el commit `58dd0c0`: experiencias web contextualizadas para administración, vendedor y bodega. El avance ponderado alcanza aproximadamente 70,75 % y se registra el hito 70 %; conductor, APK, dispositivos y producción siguen pendientes.
 | 2026-11-27 | Publicado en el monorepo el commit `2381c6a`: experiencia web de despacho/conductor con estados y asignaciones autorizadas. El avance ponderado permanece aproximadamente en 70,75 %; validación física, dispositivos y APK siguen pendientes.
+| 2026-11-28 | La configuración `local-mobile` compiló y se generó `apps/admin-angular/android/app/build/outputs/apk/debug/app-debug.apk` con Capacitor y los plugins biométrico, almacenamiento seguro, cámara, Bluetooth LE, preferencias, push y splash. El avance ponderado permanece aproximadamente en 70,75 %; firma productiva, instalación, validación física, notificaciones reales y producción siguen pendientes.
 | 2026-11-27 | Publicado en el monorepo el commit `ee145f8`: máquina de estados de órdenes y traslados con tránsito, auditoría e idempotencia. El avance ponderado permanece aproximadamente en 70,75 %; validación física y producción siguen pendientes.
 | 2026-11-27 | Publicado en el monorepo el commit `86bb440`: reporte de conciliación de deudas vinculadas, con comparación de precios confirmados, estados de conciliación y detección de créditos excedentes. El avance ponderado permanece aproximadamente en 70,75 %; la validación PostgreSQL dedicada, la aplicación de créditos y la operación productiva siguen pendientes. |
 | 2026-11-27 | Publicado en el monorepo el commit `cf63d06`: corrección de deudas sobre envíos parciales después de anular remanentes, con 7 pruebas integrales Don Javier, 13 pruebas PostgreSQL de cobranza y build de API exitosos. El avance ponderado permanece aproximadamente en 70,75 %; créditos aplicables, producción y dispositivos reales siguen pendientes. |
