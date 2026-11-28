@@ -64,6 +64,8 @@
 **Punto de control `5fd4a92`:** se integró el desbloqueo biométrico opcional para builds de producción nativas, separado del login beta de Don Javier. Solo se conserva el token y la identidad en Keychain/Keystore; la contraseña nunca se almacena. Antes de navegar, el token se valida contra un endpoint protegido y las credenciales se eliminan ante respuestas 401/403. Pasaron 11 pruebas Angular focalizadas, build Angular de producción, sincronización Capacitor y `assembleDebug` Android con ambos plugins registrados. iOS y la validación en dispositivos reales siguen pendientes; el avance ponderado permanece aproximadamente en 70,75 %.
 
 **Punto de control `6866844`:** el portal de cliente devuelve inmediatamente los precios confirmados, totales y líneas cotizadas al crear o repetir un pedido, manteniendo idempotencia y aislamiento. Se agregó `GET /sales/historical`, de solo lectura y aislado por tienda, con agregación mensual de ventas POS y despachos B2B, tendencia entre mitades del período e índice estacional descriptivo; exige al menos 12 meses para una lectura estacional mínima y declara sus limitaciones. Pasó el build de la API y quedó preparada la prueba de integración; la ejecución PostgreSQL se omitió porque no está configurada `DISTRIBUTION_TEST_DATABASE_URL`. El avance ponderado permanece aproximadamente en 70,75 %: la validación con datos reales, interfaz completa y dispositivos siguen pendientes.
+
+**Punto de control `69a23e3`:** se completó la validación PostgreSQL aislada del alcance Don Javier: se aplicaron las 38 migraciones versionadas de la rama, incluyendo `PushDevice` y la conversión de stock global a cantidades fraccionarias. Pasaron 122 pruebas de las 14 suites de distribución, 17 pruebas del reporte histórico y 7 pruebas del flujo integral de demo. También se corrigieron la devolución POS, las recomendaciones y el análisis histórico. La base fue temporal y separada; no se aplicaron migraciones a una base compartida ni se validaron dispositivos, producción, pagos reales o notificaciones push. El avance ponderado permanece aproximadamente en 70,75 %.
 ## Estimación global
 
 **Avance estimado: alrededor de 70,75 %** del alcance integral acordado, no de preparación para producción. Es una valoración manual y aproximada, no una medición de esfuerzo restante ni una garantía de fecha. Incluye informe, web, app móvil para cinco roles, multiempresa y entrega; no incluye implementación tributaria legal ni nuevas funcionalidades de Meta.
@@ -280,7 +282,7 @@ Las etiquetas de envasado se imprimen desde el navegador y no contienen lote, ve
 - [x] Contrastar opcionalmente la demanda POS con el stock registrado en todas las ubicaciones activas, indicando una brecha orientativa solo cuando la cobertura esté completa; probado localmente.
 - [x] Incluir opcionalmente cantidades históricas despachadas B2B separadas de ventas POS y sumarlas para una extrapolación orientativa, con desglose en CSV; probado localmente.
 - [x] Consultar opcionalmente pedidos B2B actualmente pendientes y sumarlos a la brecha orientativa cuando hay cobertura completa de stock; probado localmente, sin reservar existencias.
-- [ ] Ampliar el análisis histórico con pedidos B2B, estacionalidad y tendencias.
+- [x] Ampliar el análisis histórico con pedidos B2B, estacionalidad y tendencias; validado con PostgreSQL temporal y datos sintéticos.
 - [x] Exportar clientes del filtro en una consulta de saldos, hasta 10000 registros, sin generar archivos parciales al superar el límite; probado localmente con datos sintéticos.
 - [x] Consultar y exportar deudas por cliente y pagos por deuda, hasta 10000 registros por reporte, sin generar archivos parciales al superar el límite; probado localmente con datos sintéticos.
 - [x] Desarrollar proyecciones orientativas de reposición y compra para horizontes de 1 a 183 días, incluido el horizonte semestral.
@@ -332,7 +334,7 @@ Los addons deben ser independientes entre sí. Las pruebas aisladas todavía no 
 
 - [x] Compilar Angular para producción y ejecutar pruebas dirigidas de API e interfaz en el alcance implementado.
 - [x] Mantener sincronizados los modelos Prisma de API y workers y validar sus esquemas.
-- [x] Incluir las 22 migraciones de distribución y validarlas en orden sobre una línea base Prisma y PostgreSQL temporal aislado.
+- [x] Incluir las 38 migraciones versionadas de la rama y validarlas en orden sobre una línea base Prisma y PostgreSQL temporal aislado.
 - [ ] Aplicar y verificar las migraciones en un entorno existente autorizado.
 - [x] Hacer commit y push de los gráficos y exportaciones a la rama del addon; commit `5e62d07` confirmado en GitHub.
 - [x] Hacer commit y push de la serie diaria, reportes paginados de cobranza y zona comercial de ventas; commit `35af531` confirmado en GitHub.
