@@ -69,6 +69,8 @@
 
 **Punto de control APK Android (28 de noviembre de 2026):** la configuración `local-mobile` compiló, Capacitor sincronizó los siete plugins nativos y Gradle generó correctamente `app-debug.apk` para la demo local. El artefacto se generó solo para validación técnica; no está firmado para producción, no se ha instalado en un teléfono ni se han probado biometría, cámara, QR, conexión o notificaciones físicas. La estimación integral permanece aproximadamente en 70,75 %.
 
+**Punto de control de cierre lógico web (28 de noviembre de 2026):** la landing de Don Javier, el login beta y el portal web de cliente quedaron validados en conjunto con 27 pruebas Angular focalizadas. La landing usa identidad propia, catálogo de demostración y navegación aislada por tenant; el portal muestra precios y totales confirmados cuando el servidor los devuelve, además de pedidos, envíos, saldos y recepción declarada. La prueba en dispositivos reales sigue pendiente y la estimación integral permanece aproximadamente en 70,75 %.
+
 **Punto de control `69a23e3`:** se completó la validación PostgreSQL aislada del alcance Don Javier: se aplicaron las 38 migraciones versionadas de la rama, incluyendo `PushDevice` y la conversión de stock global a cantidades fraccionarias. Pasaron 122 pruebas de las 14 suites de distribución, 17 pruebas del reporte histórico y 7 pruebas del flujo integral de demo. También se corrigieron la devolución POS, las recomendaciones y el análisis histórico. La base fue temporal y separada; no se aplicaron migraciones a una base compartida ni se validaron dispositivos, producción, pagos reales o notificaciones push. El avance ponderado permanece aproximadamente en 70,75 %.
 
 **Punto de control `3339f8d`:** al vincular una deuda ficticia a un pedido despachado o a un envío, la API ahora exige que el importe coincida con el precio confirmado persistido; rechaza pedidos anulados, precios ausentes e importes manipulados, y calcula el importe de envíos parciales a partir de sus líneas confirmadas. Se actualizaron los flujos integrales y la compilación de la API pasó correctamente. La prueba PostgreSQL de este nuevo comportamiento quedó preparada, pero no se ejecutó en esta sesión porque no existe una base dedicada configurada; el avance ponderado permanece aproximadamente en 70,75 %.
@@ -328,10 +330,12 @@ Los nuevos reportes locales de deudas y pagos utilizan una consulta por reporte,
   - GPS, custodia física, firma productiva, validación física y dispositivos reales siguen pendientes.
 - [x] Permitir al cliente autenticado consultar sus pedidos y estados declarados, con aislamiento por tienda y cliente; probado con datos sintéticos.
 - [x] Permitir al cliente solicitar pedidos, consultar saldos y declarar recepción tras la entrega declarada, con pruebas locales.
-- [ ] Completar la experiencia de cliente, incluidos precios confirmados y validación en dispositivos reales.
+- [x] Completar la experiencia web de cliente, incluidos precios y totales confirmados, pedidos, envíos, saldos y recepción declarada.
+  - La validación en dispositivos reales sigue pendiente.
 - [x] Completar experiencia web de despacho y conductor; consulta asignaciones autorizadas, lee QR y declara estados con idempotencia.
   - GPS, custodia física, firma productiva, validación física y dispositivos reales siguen pendientes.
-- [ ] Terminar diseño propio de la web y landing de Don Javier.
+- [x] Implementar diseño propio de la web y landing de Don Javier para la demo local.
+  - La revisión visual final con el cliente y la publicación productiva siguen pendientes.
 - [x] Crear la app móvil demo por tienda para los cinco roles y generar la APK Android debug.
   - La firma productiva, iOS, instalación y validación en teléfonos reales siguen pendientes.
 - [ ] Probar los flujos de extremo a extremo en teléfonos y dispositivos reales.
